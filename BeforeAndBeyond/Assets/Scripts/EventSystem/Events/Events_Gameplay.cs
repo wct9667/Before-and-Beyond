@@ -1,8 +1,10 @@
 
-public struct ChangeScene : IEvent
+public struct Pause : IEvent
 {
-    public int sceneIndex;
+    public bool paused;
 }
 
-public struct Quit : IEvent
-{ }
+//for the UI - resume
+public struct UnPause : IEvent
+{
+}
