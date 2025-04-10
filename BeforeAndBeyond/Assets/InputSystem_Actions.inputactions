@@ -24,7 +24,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Attack",
+                    "name": "StartingAbility",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
                     "expectedControlType": "Button",
@@ -63,15 +63,6 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "7ee5ea84-76e5-47f0-b9a5-e7cf6df93b51",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "StartingAbility",
-                    "type": "Button",
-                    "id": "59d9b355-1586-4f77-b3fb-e02ac8692a1e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -251,7 +242,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Attack",
+                    "action": "StartingAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -262,7 +253,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Attack",
+                    "action": "StartingAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -273,7 +264,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Touch",
-                    "action": "Attack",
+                    "action": "StartingAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -284,7 +275,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Attack",
+                    "action": "StartingAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -295,7 +286,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Attack",
+                    "action": "StartingAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -306,7 +297,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Attack",
+                    "action": "StartingAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -417,28 +408,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2f2bebef-c7b6-4c5f-99b9-93e7d182e095",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "StartingAbility",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1f0bbefd-d877-49d6-b9fa-8d29537cd84a",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "StartingAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

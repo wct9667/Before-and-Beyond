@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
         //setup input maps
         inputReader.Move += Move;
         inputReader.Look += Look;
-        inputReader.Attack += Attack;
         inputReader.Interact += Interact;
         inputReader.Jump += Jump;
         inputReader.Sprint += Sprint;
@@ -27,7 +26,6 @@ public class PlayerController : MonoBehaviour
         //setup input maps
         inputReader.Move -= Move;
         inputReader.Look -= Look;
-        inputReader.Attack -= Attack;
         inputReader.Interact -= Interact;
         inputReader.Jump -= Jump;
         inputReader.Sprint -= Sprint;
@@ -44,11 +42,6 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"Look x:{lookVector.x}, y:{lookVector.y} ");
     }
 
-    private void Attack()
-    {
-        Debug.Log("Attack");
-    }
-    
     private void Jump()
     {
         Debug.Log("Jump");

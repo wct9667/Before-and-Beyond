@@ -22,7 +22,6 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     //Gameplay Action
     public event UnityAction<Vector2> Move = delegate { };
     public event UnityAction<Vector2> Look = delegate { };
-    public event UnityAction Attack = delegate { };
     public event UnityAction Interact = delegate { };
     public event UnityAction Jump = delegate { };
     public event UnityAction<bool> Sprint = delegate { };
@@ -79,12 +78,6 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     public void OnLook(InputAction.CallbackContext context)
     {
         Look.Invoke(context.ReadValue<Vector2>());
-    }
-
-    public void OnAttack(InputAction.CallbackContext context)
-    {
-        if(context.phase == InputActionPhase.Performed)
-            Attack.Invoke();
     }
 
     public void OnInteract(InputAction.CallbackContext context)
