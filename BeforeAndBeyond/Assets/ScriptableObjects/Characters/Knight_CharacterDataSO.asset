@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18448782bb4fb4e4b913927eb356aef8, type: 3}
+  m_Name: Knight_CharacterDataSO
+  m_EditorClassIdentifier: 
+  percentDamageReduction: 50
+  percentSpeedIncrease: 0
+  canDoubleJump: 0
+  canDash: 0
+  startingAbility: {fileID: 11400000, guid: 951d888a636432e499127e2048afba05, type: 2}

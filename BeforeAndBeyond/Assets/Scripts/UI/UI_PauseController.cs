@@ -24,7 +24,7 @@ public class PauseController : MonoBehaviour
 
     private void OnEnable()
     {
-        pauseEventBinding = new EventBinding<Pause>((e) => { PauseUI(e.paused); });
+        pauseEventBinding = new EventBinding<Pause>((e) => { PauseUI(e.Paused); });
         EventBus<Pause>.Register(pauseEventBinding);
     }
 

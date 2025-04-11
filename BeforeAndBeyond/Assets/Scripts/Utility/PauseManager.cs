@@ -39,7 +39,7 @@ public class PauseManager : MonoBehaviour
         
         EventBus<Pause>.Raise(new Pause()
         {
-            paused = paused
+            Paused = paused
         });
     }
 
