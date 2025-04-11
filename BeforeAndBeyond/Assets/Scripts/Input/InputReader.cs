@@ -24,7 +24,7 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     public event UnityAction<Vector2> Look = delegate { };
     public event UnityAction Interact = delegate { };
     public event UnityAction Jump = delegate { };
-    public event UnityAction<bool> Sprint = delegate { };
+    public event UnityAction Swap = delegate { };
     public event UnityAction StartingAbility = delegate { };
     public event UnityAction Pause = delegate { };
 
@@ -92,16 +92,10 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
             Jump.Invoke();
     }
 
-    public void OnSprint(InputAction.CallbackContext context)
+    public void OnSwap(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            Sprint.Invoke(true);
-            return;
-        }
-
-        if (context.canceled) 
-            Sprint.Invoke(false);
+        if (context.phase == InputActionPhase.Performed)
+            Swap.Invoke();
     }
 
     public void OnStartingAbility(InputAction.CallbackContext context)
@@ -172,7 +166,5 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     {
     }
     
-
     #endregion
-  
 }
