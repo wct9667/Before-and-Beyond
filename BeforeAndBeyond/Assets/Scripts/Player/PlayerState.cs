@@ -41,6 +41,8 @@ namespace Player
             {
                 CharacterType =  currentCharacter.CharacterType
             });
+            
+            Debug.Log($"Player Swapped to {currentCharacter.CharacterType}");
         }
     }
 }
