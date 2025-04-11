@@ -7,8 +7,22 @@ namespace Player
     {
         [Header("Input")]
         [SerializeField] private InputReader inputReader;
-    
-    
+
+        public Camera mainCamera;
+        public float sensX;
+        public float sensY;
+
+        public Transform orientation;
+
+        float rotationX;
+        float rotationY;
+
+        private void Start()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
         private void OnEnable()
         {
             //setup input maps
@@ -33,6 +47,16 @@ namespace Player
         
         private void Look(Vector2 lookVector)
         {
+            float mouseX = lookVector.x * sensX * Time.deltaTime;
+            float mouseY = lookVector.y * sensY * Time.deltaTime;
+
+            rotationY += mouseX;
+            rotationX -= mouseY;
+
+            rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+
+            mainCamera.transform.rotation = Quaternion.Euler(rotationX, rotationY, 0);
+            orientation.rotation = Quaternion.Euler(0, rotationY, 0);
             Debug.Log($"Look x:{lookVector.x}, y:{lookVector.y} ");
         }
     
