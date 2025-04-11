@@ -23,7 +23,6 @@ namespace Player
             //setup input maps
             inputReader.Move -= Move;
             inputReader.Look -= Look;
-            inputReader.Interact -= Interact;
             inputReader.Jump -= Jump;
         }
     
