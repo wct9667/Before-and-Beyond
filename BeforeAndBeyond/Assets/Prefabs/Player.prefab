@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2282408493274611984}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,7 +55,17 @@ MonoBehaviour:
   sensX: 50
   sensY: 50
   orientation: {fileID: 7965587912222201523}
+  playerHeight: 0
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
+  grounded: 0
   moveSpeed: 1
+  groundDrag: 0
+  jumpForce: 0
+  jumpCooldown: 0
+  airMultiplier: 0
+  readyToJump: 0
 --- !u!114 &5944445937473390919
 MonoBehaviour:
   m_ObjectHideFlags: 0
