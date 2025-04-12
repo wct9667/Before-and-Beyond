@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ability;
@@ -23,10 +24,14 @@ namespace Player
         {
             playerState = GetComponent<PlayerState>();
             InitializeCoolDownsForCurrentCharacter();
-           EventBus<AbilitiesSwapped>.Raise(new AbilitiesSwapped()
-           {
-               cooldowns = abilityCooldowns
-           });
+        }
+
+        private void Start()
+        {
+            EventBus<AbilitiesSwapped>.Raise(new AbilitiesSwapped()
+            {
+                cooldowns = abilityCooldowns
+            });
         }
 
         private void OnEnable()

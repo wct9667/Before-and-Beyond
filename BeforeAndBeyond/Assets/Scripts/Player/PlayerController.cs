@@ -33,7 +33,7 @@ namespace Player
         
         private void Look(Vector2 lookVector)
         {
-            Debug.Log($"Look x:{lookVector.x}, y:{lookVector.y} ");
+           // Debug.Log($"Look x:{lookVector.x}, y:{lookVector.y} ");
         }
     
         private void Jump()

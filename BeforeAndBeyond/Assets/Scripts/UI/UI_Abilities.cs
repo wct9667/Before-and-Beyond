@@ -19,7 +19,8 @@ public class UI_Abilities : MonoBehaviour
         abilitiesSwappedEventBinding = new EventBinding<AbilitiesSwapped>((e) =>
         {
             if (e.cooldowns != null)
-                this.coolDowns = e.cooldowns;
+                coolDowns = e.cooldowns;
+            
             ResetAbilities();
         });
         EventBus<AbilitiesSwapped>.Register(abilitiesSwappedEventBinding);
@@ -42,7 +43,6 @@ public class UI_Abilities : MonoBehaviour
         }
         
         icons.Clear();
-
 
         int index = 0;
         foreach (KeyValuePair<AbstractAbility, float> kvp in coolDowns)
