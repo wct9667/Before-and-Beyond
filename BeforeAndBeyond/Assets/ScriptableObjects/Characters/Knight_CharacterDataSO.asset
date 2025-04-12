@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18448782bb4fb4e4b913927eb356aef8, type: 3}
   m_Name: Knight_CharacterDataSO
   m_EditorClassIdentifier: 
+  characterType: 0
   percentDamageReduction: 50
   percentSpeedIncrease: 0
   canDoubleJump: 0
   canDash: 0
-  startingAbility: {fileID: 11400000, guid: 951d888a636432e499127e2048afba05, type: 2}
+  abilities:
+  - {fileID: 11400000, guid: 951d888a636432e499127e2048afba05, type: 2}

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1fa39e9edbc03f45af52febe8835a54, type: 3}
   m_Name: GrappleHookAbilitySO
   m_EditorClassIdentifier: 
-  name: Grapple
+  abilityCooldown: 2

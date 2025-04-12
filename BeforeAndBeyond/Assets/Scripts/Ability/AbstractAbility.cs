@@ -5,6 +5,10 @@ namespace Ability
     [CreateAssetMenu(menuName = "Player/Abilities")]
     public class AbstractAbility : ScriptableObject
     {
+
+        [SerializeField] private float abilityCooldown;
+        public float AbilityCooldown => abilityCooldown;
+        
         /// <summary>
         /// Activates the ability
         /// </summary>
