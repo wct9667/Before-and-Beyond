@@ -56,10 +56,11 @@ public class UI_Abilities : MonoBehaviour
 
     private void UpdateAbilities()
     {
-        int index = 0;
+        int index = coolDowns.Count -1;
         foreach (KeyValuePair<AbstractAbility, float> kvp in coolDowns)
         {
            icons[index].Fill.fillAmount = (kvp.Value)/ kvp.Key.AbilityCooldown;
+           index--;
         }
     }
 
