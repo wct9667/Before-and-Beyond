@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player
@@ -23,11 +24,8 @@ namespace Player
         public bool canDash;
 
         [Header("Abilities")] 
-        [SerializeField] private Ability.AbstractAbility startingAbility;
-        public Ability.AbstractAbility StartingAbility => startingAbility;
-        
-        //[SerializeField] private Ability.AbstractAbility firstAbility;
-        //[SerializeField] private Ability.AbstractAbility secondAbility;
-        //[SerializeField] private Ability.AbstractAbility thirdAbility;
+        [SerializeField] private List<Ability.AbstractAbility> abilities;
+        public List<Ability.AbstractAbility> Abilities => abilities;
+        public Ability.AbstractAbility StartingAbility => abilities[0];
     }
 }

@@ -1,14 +1,35 @@
+using System.Collections.Generic;
+using Ability;
+using JetBrains.Annotations;
+
+/// <summary>
+/// Pause the game
+/// </summary>
 public struct Pause : IEvent
 {
     public bool Paused;
 }
 
-//for the UI - resume
+/// <summary>
+/// Resume the game
+/// </summary>
 public struct UnPause : IEvent
 {
 }
 
+/// <summary>
+/// Event to call when characters are swapped
+/// </summary>
 public struct CharacterSwap : IEvent
 {
     public Player.CharacterType CharacterType;
+}
+
+/// <summary>
+/// Unlike the character swap, this event is fired after the chatacter has been swapped.
+/// Think order of operations
+/// </summary>
+public struct AbilitiesSwapped : IEvent
+{
+    [CanBeNull] public Dictionary<AbstractAbility, float> cooldowns;
 }
