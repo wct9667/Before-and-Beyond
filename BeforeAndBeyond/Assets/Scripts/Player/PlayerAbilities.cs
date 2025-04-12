@@ -10,9 +10,9 @@ namespace Player
     {
         [Header("Input")] 
         [SerializeField] private InputReader inputReader;
-        
+
         //cooldown tracker
-        private Dictionary<Ability.AbstractAbility, float> abilityCooldowns = new();
+        private Dictionary<AbstractAbility, float> abilityCooldowns = new();
 
         private PlayerState playerState;
         
@@ -23,12 +23,20 @@ namespace Player
         {
             playerState = GetComponent<PlayerState>();
             InitializeCoolDownsForCurrentCharacter();
+           EventBus<AbilitiesSwapped>.Raise(new AbilitiesSwapped()
+           {
+               cooldowns = abilityCooldowns
+           });
         }
 
         private void OnEnable()
         {
             inputReader.StartingAbility += StartingAbility;
-            characterSwapEventBinding = new EventBinding<CharacterSwap>(InitializeCoolDownsForCurrentCharacter);
+            characterSwapEventBinding = new EventBinding<CharacterSwap>(()=>
+            {
+                InitializeCoolDownsForCurrentCharacter();
+                EventBus<AbilitiesSwapped>.Raise(new AbilitiesSwapped());
+            });
             EventBus<CharacterSwap>.Register(characterSwapEventBinding);
         }
         

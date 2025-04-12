@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 866521148545362211}
   - component: {fileID: 2388568021640366672}
   m_Layer: 5
-  m_Name: Button
+  m_Name: UI_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
