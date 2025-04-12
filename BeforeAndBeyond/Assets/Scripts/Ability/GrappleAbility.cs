@@ -6,8 +6,8 @@ namespace Ability
     public class GrappleHookAbility : AbstractAbility 
     {
         private Vector3 grapplePoint;
-        private float maxDist;
-        private LayerMask whatIsGround;
+        private int maxDist = 200;
+        private LayerMask layerMask;
         private SpringJoint spring;
         private Transform camera, player;
 
@@ -23,37 +23,30 @@ namespace Ability
         {
             camera = Camera.main.transform;
             player = GameObject.FindGameObjectWithTag("Player").transform;
+            layerMask = LayerMask.GetMask("whatIsGround");
         }
 
         private void GrappleMovement()
         {
             GrappleSetup();
 
-            RaycastHit ray;
-            if(Physics.Raycast(camera.position, camera.forward, out ray, maxDist, whatIsGround))
+            RaycastHit hit;
+
+            if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
             {
-                grapplePoint = ray.point;
-                Debug.Log("Raycast Point: " + ray.point);
-
-                spring = player.gameObject.AddComponent<SpringJoint>();
-                spring.autoConfigureConnectedAnchor = false;
-                spring.connectedAnchor = grapplePoint;
-
-                float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
-
-                spring.maxDistance = distanceFromPoint * 0.05f;
-                spring.minDistance = distanceFromPoint * 0.33f;
-
-                spring.spring = 25f;
-                spring.damper = 5f;
-                spring.massScale = 2.5f;
-
+                Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                Debug.Log("-----------------------Did Hit: " + hit.point);
             }
+            else
+            {
+                Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * 1000, Color.white);
+                Debug.Log("-----------------------Did not Hit");
+            }
+
         }
 
         private void EndGrapple()
         {
-            Destroy(spring);
         }
     }
 }
