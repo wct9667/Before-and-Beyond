@@ -65,6 +65,7 @@ public class UI_Abilities : MonoBehaviour
 
     private void Update()
     {
+        if (coolDowns == null) return;
         UpdateAbilities();
     }
 }
