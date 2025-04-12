@@ -52,6 +52,7 @@ namespace Player
 
             //ground check
             grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+            
 
             if (grounded)
             {
@@ -119,6 +120,8 @@ namespace Player
     
         private void Jump()
         {
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // freeze y velocity
+
             if (grounded && readyToJump)
             {
                 readyToJump = false;
