@@ -4,7 +4,7 @@ public class PauseManager : MonoBehaviour
 {
     [Header("Input")]
     [SerializeField] private InputReader inputReader;
-    
+
     private bool paused;
 
     private EventBinding<UnPause> unPauseEventBinding;
@@ -51,12 +51,20 @@ public class PauseManager : MonoBehaviour
             inputReader.SetUIInputMap();
 
             Time.timeScale = 0;
+
+            Cursor.lockState = CursorLockMode.None;   // unlock cursor
+            Cursor.visible = true;                    // show cursor
         }
         else
         {
             inputReader.SetGameInputMap();
 
             Time.timeScale = 1;
+
+            Cursor.lockState = CursorLockMode.None;   // lock cursor
+            Cursor.visible = false;                    // hide cursor
         }
+
+
     }
 }
