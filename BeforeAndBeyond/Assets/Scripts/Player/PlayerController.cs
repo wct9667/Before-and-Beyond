@@ -8,11 +8,12 @@ namespace Player
         [Header("Input")]
         [SerializeField] private InputReader inputReader;
 
+        [Header("Settings")] 
+        [SerializeField] private Settings settings;
+
         [Header("Look")]
         public Camera mainCamera;
-        public float sensX;
-        public float sensY;
-
+        
         public Transform orientation;
 
         float rotationX;
@@ -104,8 +105,8 @@ namespace Player
         
         private void Look(Vector2 lookVector)
         {
-            float mouseX = lookVector.x * sensX * Time.deltaTime;
-            float mouseY = lookVector.y * sensY * Time.deltaTime;
+            float mouseX = lookVector.x * settings.sensX * Time.deltaTime;
+            float mouseY = lookVector.y * settings.sensY * Time.deltaTime;
 
             rotationY += mouseX;
             rotationX -= mouseY;

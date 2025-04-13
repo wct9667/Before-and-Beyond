@@ -4439,6 +4439,7 @@ GameObject:
   - component: {fileID: 1686342274}
   - component: {fileID: 1686342276}
   - component: {fileID: 1686342275}
+  - component: {fileID: 1686342278}
   m_Layer: 5
   m_Name: Canvas_Settings
   m_TagString: Untagged
@@ -4532,6 +4533,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1686342278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686342273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfe75449378aca245bfd1e04672ae761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivityXSlider: {fileID: 592655769}
+  sensitivityYSlider: {fileID: 786601039}
+  sensitivityXInput: {fileID: 783619084}
+  sensitivityYInput: {fileID: 955316712}
+  settings: {fileID: 11400000, guid: a8883efd1b5b1d545bf24826cf8ed11a, type: 2}
 --- !u!1 &1729788515
 GameObject:
   m_ObjectHideFlags: 0
@@ -4798,11 +4816,6 @@ MonoBehaviour:
   buttonMainMenu: {fileID: 1617219790}
   buttonSettingsBack: {fileID: 1306021153}
   mainMenuSceneIndex: 0
-  sensitivityXSlider: {fileID: 592655769}
-  sensitivityYSlider: {fileID: 786601039}
-  sensitivityXInput: {fileID: 783619084}
-  sensitivityYInput: {fileID: 955316712}
-  playerController: {fileID: 7541875899085678186}
 --- !u!114 &1996165172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5591,6 +5604,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9020250123077601345, guid: 6a691f2f9bc6e614489c9c4605a157c6,
         type: 3}
+      propertyPath: settings
+      value: 
+      objectReference: {fileID: 11400000, guid: a8883efd1b5b1d545bf24826cf8ed11a,
+        type: 2}
+    - target: {fileID: 9020250123077601345, guid: 6a691f2f9bc6e614489c9c4605a157c6,
+        type: 3}
       propertyPath: jumpForce
       value: 5
       objectReference: {fileID: 0}
@@ -5634,18 +5653,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a691f2f9bc6e614489c9c4605a157c6, type: 3}
---- !u!114 &7541875899085678186 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9020250123077601345, guid: 6a691f2f9bc6e614489c9c4605a157c6,
-    type: 3}
-  m_PrefabInstance: {fileID: 7541875899085678185}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d3088dd914aa5e4091a51e25346d728, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &7541875899085678187 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5419050044986251399, guid: 6a691f2f9bc6e614489c9c4605a157c6,

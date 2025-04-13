@@ -5,6 +5,9 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - inputReader: {fileID: 11400000, guid: 1988d8f22756e6d448ac20da11c95867, type: 2}
+  - settings: {fileID: 11400000, guid: a8883efd1b5b1d545bf24826cf8ed11a, type: 2}
+  - mainCamera: {instanceID: 0}
+  - orientation: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
