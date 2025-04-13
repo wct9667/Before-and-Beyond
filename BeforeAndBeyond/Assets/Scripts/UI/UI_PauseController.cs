@@ -67,6 +67,7 @@ public class PauseController : MonoBehaviour
     private void PauseUI(bool paused)
     {
         pausedBackground.enabled = paused;
+        mainPausedCanvas.enabled = paused;
 
         if (!paused) return;
 
