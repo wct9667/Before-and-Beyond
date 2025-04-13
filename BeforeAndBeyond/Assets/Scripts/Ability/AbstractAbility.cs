@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Ability
@@ -18,8 +19,19 @@ namespace Ability
         {
             Debug.Log($"Activating Ability {name}");
         }
-        
-        //TODO add needed overrides here so any needed data can get passed through
+
+        /// <summary>
+        /// Setups up the SO
+        /// </summary>
+        protected virtual void Setup()
+        {
+            
+        }
+
+        public void OnEnable()
+        {
+          Setup();
+        }
     }
 
 }

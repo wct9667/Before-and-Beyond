@@ -3,8 +3,10 @@ using System.Collections;
 namespace Ability
 {
     [CreateAssetMenu(menuName = "Player/Abilities/GrappleHookAbility", fileName = "GrappleHookAbilitySO")]
-    public class GrappleHookAbility : AbstractAbility 
+    public class GrappleHookAbility : AbstractAbility
     {
+
+        [SerializeField] private LayerMask groundLayer;
         private RaycastHit hit;
         private int maxDist = 200;
         private LayerMask layerMask;
@@ -27,20 +29,17 @@ namespace Ability
             GrappleStart();
         }
 
-        private void GrappleSetup()
+        protected override void Setup()
         {
-            monoBehavior = GameObject.FindObjectOfType<MonoBehaviour>();
             camera = Camera.main.transform;
             playerGameObject = GameObject.FindGameObjectWithTag("Player");
             playerRB = playerGameObject.GetComponent<Rigidbody>();
             player = playerGameObject.transform;
-            layerMask = LayerMask.GetMask("whatIsGround");
         }
 
         private void GrappleStart()
         {
-            GrappleSetup();
-
+            monoBehavior = GameObject.FindObjectOfType<MonoBehaviour>();
             if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
             {
                 Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
