@@ -11,7 +11,7 @@ public class HoverIsSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (EventSystem.current.currentSelectedGameObject == gameObject)
+        if (EventSystem.current && EventSystem.current.currentSelectedGameObject == gameObject)
         {
             EventSystem.current.SetSelectedGameObject(null);
         }
