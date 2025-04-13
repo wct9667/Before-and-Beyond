@@ -23,15 +23,11 @@ namespace Ability
         /// <summary>
         /// Setups up the SO
         /// </summary>
-        protected virtual void Setup()
+        public virtual void Setup()
         {
             
         }
 
-        public void OnEnable()
-        {
-          Setup();
-        }
     }
 
 }

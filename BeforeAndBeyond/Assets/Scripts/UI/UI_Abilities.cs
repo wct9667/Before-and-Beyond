@@ -37,7 +37,6 @@ public class UI_Abilities : MonoBehaviour
         {
             for (int i = icons.Count - 1; i >= 0; i--)
             {
-                Debug.Log("Destroy");
                 Destroy(icons[i].gameObject);
             }
         }

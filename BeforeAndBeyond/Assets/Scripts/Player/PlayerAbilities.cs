@@ -32,6 +32,15 @@ namespace Player
             {
                 cooldowns = abilityCooldowns
             });
+            
+            //Setup data for each characterdata
+            foreach (PlayerCharacterData characterData in playerState.Characters)
+            {
+                foreach (AbstractAbility ability in characterData.Abilities)
+                {
+                    ability.Setup();
+                }
+            }
         }
 
         private void OnEnable()
@@ -81,9 +90,8 @@ namespace Player
         private void InitializeCoolDownsForCurrentCharacter()
         {
             abilityCooldowns.Clear();
-            PlayerCharacterData character = playerState.CurrentCharacter;
 
-            foreach (AbstractAbility ability in character.Abilities)
+            foreach (AbstractAbility ability in playerState.CurrentCharacter.Abilities)
             {
                 abilityCooldowns[ability] = 0f;
             }

@@ -15,6 +15,7 @@ namespace Player
         [SerializeField] private PlayerCharacterData currentCharacter;
 
         public PlayerCharacterData CurrentCharacter => currentCharacter;
+        public PlayerCharacterData[] Characters => new PlayerCharacterData[] {knightCharacter, hackerCharacter};
 
         private void OnEnable()
         {
