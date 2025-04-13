@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe2dd7f7db694c245924a45a5b6b7f6f, type: 3}
   m_Name: SwordAbilitySO
   m_EditorClassIdentifier: 
-  abilityCooldown: 1
+  image: {fileID: 0}
+  abilityCooldown: 0.6
