@@ -3,7 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "settings", menuName = "settings")]
 public class Settings : ScriptableObject
 {
-    public float sensX;
-    public float sensY;
-
+    [Range(0,100)] public float sensX;
+    [Range(0,100)] public float sensY;
 }

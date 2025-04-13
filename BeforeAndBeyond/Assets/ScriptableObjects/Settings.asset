@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38b2b5a5e473774cb1a303268ea540b, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  sensX: 0.5
-  sensY: 0.5
+  sensX: 50
+  sensY: 50
