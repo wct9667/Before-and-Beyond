@@ -1078,6 +1078,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 487062817}
+  - component: {fileID: 487062818}
   m_Layer: 0
   m_Name: SciFiWeaponShell
   m_TagString: Untagged
@@ -1100,6 +1101,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330585546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &487062818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487062816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41bd7f635bbdd8f45a12c6c4951e5785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &513888448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4257,6 +4270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1453093439}
+  - component: {fileID: 1453093440}
   m_Layer: 0
   m_Name: FantasyWeaponShell
   m_TagString: Untagged
@@ -4280,6 +4294,18 @@ Transform:
   - {fileID: 1965694661}
   m_Father: {fileID: 330585546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1453093440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453093438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41bd7f635bbdd8f45a12c6c4951e5785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1532457986 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5888317601805531422, guid: 7707b8176362e724e99bc999e716c167,
