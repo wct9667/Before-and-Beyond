@@ -1,6 +1,7 @@
 using Player;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -69,7 +70,11 @@ public class PauseController : MonoBehaviour
         pausedBackground.enabled = paused;
         mainPausedCanvas.enabled = paused;
 
-        if (!paused) return;
+        if (!paused)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            return;
+        }
 
         mainPausedCanvas.enabled = true;
         settingsPausedCanvas.enabled = false;
