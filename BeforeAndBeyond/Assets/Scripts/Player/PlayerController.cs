@@ -161,6 +161,7 @@ namespace Player
             if (!grounded) return;
             
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            jumpCount++;
         }
     }
 }
