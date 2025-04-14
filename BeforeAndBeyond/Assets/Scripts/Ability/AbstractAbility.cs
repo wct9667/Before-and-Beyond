@@ -12,8 +12,12 @@ namespace Ability
         [SerializeField] private float abilityCooldown;
        
         public Sprite Image => image;
-        public float AbilityCooldown => abilityCooldown;
-        
+        public float AbilityCooldown 
+        {
+            get { return abilityCooldown; }  
+            set { abilityCooldown = value; }  
+        }
+
         /// <summary>
         /// Activates the ability
         /// </summary>

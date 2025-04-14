@@ -8,8 +8,8 @@ namespace Ability
         [Header("Ability Attributes")]
         [SerializeField] private float maxDist = 45;
         [SerializeField]  private LayerMask grappleLayerMask;
-        
-        
+        [SerializeField] private float nonRefundedCooldown = 2;
+
         private RaycastHit hit;
 
         private GameObject playerGameObject;
@@ -43,6 +43,7 @@ namespace Ability
             monoBehavior = FindObjectOfType<MonoBehaviour>();
             if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, maxDist, grappleLayerMask))
             {
+                this.AbilityCooldown = nonRefundedCooldown;
                 Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                 Debug.Log("-----------------------Did Hit: " + hit.point);
 
@@ -51,6 +52,8 @@ namespace Ability
             }
             else
             {
+                this.AbilityCooldown = 0;
+
                 Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * 1000, Color.white);
                 Debug.Log("-----------------------Did not Hit");
             }
