@@ -16,25 +16,27 @@ namespace Player
         [SerializeField] private Settings settings;
 
         [Header("Look")]
-        public Camera mainCamera;
-        
-        public Transform orientation;
-
+        [SerializeField] Camera mainCamera;
+        [SerializeField] Transform orientation;
+        private bool isController = false;
+        private Vector2 currentLookInput;
         float rotationX;
         float rotationY;
 
         [Header("Ground Check")]
-        public float playerHeight;
-        public LayerMask whatIsGround;
-        public bool grounded;
+        [SerializeField] private float playerHeight;
+        [SerializeField] private LayerMask whatIsGround;
+        [SerializeField] private bool grounded;
 
         [Header("Movement")]
-        public float moveSpeed;
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private float maxSpeed = 100;
+        
         float horizontalInput;
         float verticalInput;
         Vector3 moveDirection;
         Rigidbody rb;
-        public float groundDrag;
+        [SerializeField] private float groundDrag;
 
         [Header("Jump")]
         public float jumpForce;
@@ -42,8 +44,6 @@ namespace Player
         public float airMultiplier;
         public bool readyToJump;
 
-        
-        private Vector2 currentLookInput;
         private void Start()
         {
             playerState = GetComponent<PlayerState>();
@@ -58,7 +58,7 @@ namespace Player
             Vector2 moveVector = new Vector2(horizontalInput, verticalInput);
             Move(moveVector);
             
-            ApplyLook(currentLookInput);
+            if(isController) Look(currentLookInput);
 
             //ground check
             grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
@@ -74,22 +74,25 @@ namespace Player
                 rb.drag = 0;
                 readyToJump = false;
             }
+            
+            if (rb.velocity.magnitude > maxSpeed)
+            {
+                rb.velocity = rb.velocity.normalized * maxSpeed;
+            }
         }
 
         private void OnEnable()
         {
-            //setup input maps
             inputReader.Move += OnMove;
-            inputReader.Look += Look;
+            inputReader.Look += OnLook;
             inputReader.Jump += Jump;
         }
         
         
         private void OnDisable()
         {
-            //setup input maps
             inputReader.Move -= OnMove;
-            inputReader.Look -= Look;
+            inputReader.Look -= OnLook;
             inputReader.Jump -= Jump;
         }
 
@@ -104,36 +107,36 @@ namespace Player
             horizontalInput = moveVector.x;
             verticalInput = moveVector.y;
 
-            moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-            
-            
+            moveDirection = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
+
             float percentIncrease = playerState.CurrentCharacter.percentSpeedIncrease;
             float speedMultiplier = 1f + (percentIncrease / 100f);
 
-            rb.AddForce(moveDirection.normalized * (moveSpeed *  speedMultiplier), ForceMode.Force);
-
-            if (grounded)
-            {
-                rb.AddForce(moveDirection.normalized * (moveSpeed * speedMultiplier * groundDrag), ForceMode.Force);
-            }
-            else
-            {
-                rb.AddForce(moveDirection.normalized * (moveSpeed * speedMultiplier * airMultiplier), ForceMode.Force);
-            }
+            Vector3 targetVelocity = moveDirection * (moveSpeed * speedMultiplier);
+            
+            Vector3 currentVelocity = rb.velocity;
+            Vector3 velocityChange = targetVelocity - new Vector3(currentVelocity.x, 0, currentVelocity.z);
+            
+            rb.AddForce(new Vector3(velocityChange.x, 0, velocityChange.z), ForceMode.VelocityChange);
         }
-        
-        private void Look(Vector2 lookVector)
+
+        private void OnLook(Vector2 lookVector, bool isController)
         {
+            
             currentLookInput = lookVector;
+            this.isController = isController;
+            if (!isController) Look(currentLookInput);
         }
 
-        private void ApplyLook(Vector2 lookVector)
+        private void Look(Vector2 lookVector)
         {
             float mouseX = lookVector.x * settings.sensX * Time.deltaTime;
             float mouseY = lookVector.y * settings.sensY * Time.deltaTime;
            
             rotationY += mouseX;
             rotationX -= mouseY;
+
+            rotationX = Mathf.Clamp(rotationX, -90f, 90f );
             
             mainCamera.transform.rotation = Quaternion.Euler(rotationX, rotationY, 0);
             orientation.rotation = Quaternion.Euler(0, rotationY, 0);
@@ -141,14 +144,13 @@ namespace Player
 
         private void Jump()
         {
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // freeze y velocity
-
-            if (grounded && readyToJump)
-            {
-                readyToJump = false;
-                rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                Invoke(nameof(ResetJump), jumpCooldown);
-            }
+            //rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // freeze y velocity
+            if (!grounded && !readyToJump) return;
+            
+            readyToJump = false;
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            Invoke(nameof(ResetJump), jumpCooldown);
+            
         }
 
         private void ResetJump()

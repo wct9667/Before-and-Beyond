@@ -5,8 +5,8 @@ namespace Ability
     [CreateAssetMenu(menuName = "Player/Abilities/GrappleHookAbility", fileName = "GrappleHookAbilitySO")]
     public class GrappleHookAbility : AbstractAbility 
     {
+        [SerializeField] private float maxDist = 45;
         private RaycastHit hit;
-        private float maxDist;
         private LayerMask layerMask;
 
         private GameObject playerGameObject;
@@ -34,7 +34,6 @@ namespace Ability
             playerRB = playerGameObject.GetComponent<Rigidbody>();
             player = playerGameObject.transform;
             layerMask = LayerMask.GetMask("whatIsGround");
-            maxDist = 45f;
         }
 
         private void GrappleStart()
