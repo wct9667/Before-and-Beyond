@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -38,6 +39,9 @@ namespace Player
         public float airMultiplier;
         public bool readyToJump;
 
+
+        private bool isControllerLook = false;
+        private Vector2 currentLookInput;
         private void Start()
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -103,22 +107,41 @@ namespace Player
             Debug.Log($"Move x:{moveVector.x}, y:{moveVector.y} ");
         }
         
-        private void Look(Vector2 lookVector)
+        private void Look(Vector2 lookVector, bool isController)
         {
-            float mouseX = lookVector.x * settings.sensX * Time.deltaTime;
-            float mouseY = lookVector.y * settings.sensY * Time.deltaTime;
+            currentLookInput = lookVector;
+            isControllerLook = isController;
+        }
+
+        
+        private void Update()
+        {
+            ApplyLook(currentLookInput, isControllerLook);
+        }
+
+        private void ApplyLook(Vector2 lookVector, bool isController)
+        {
+            float mouseX;
+            float mouseY;
+
+            if (isController)
+            {
+                mouseX = lookVector.x * settings.sensX * Time.deltaTime;
+                mouseY = lookVector.y * settings.sensY * Time.deltaTime;
+            }
+            else
+            {
+                mouseX = lookVector.x * settings.sensX * Time.deltaTime;
+                mouseY = lookVector.y * settings.sensY * Time.deltaTime;
+            }
 
             rotationY += mouseX;
             rotationX -= mouseY;
-
-            rotationX = Mathf.Clamp(rotationX, -90f, 90f);
-
+            
             mainCamera.transform.rotation = Quaternion.Euler(rotationX, rotationY, 0);
             orientation.rotation = Quaternion.Euler(0, rotationY, 0);
-
-            // Debug.Log($"Look x:{lookVector.x}, y:{lookVector.y} ");
         }
-    
+
         private void Jump()
         {
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // freeze y velocity
