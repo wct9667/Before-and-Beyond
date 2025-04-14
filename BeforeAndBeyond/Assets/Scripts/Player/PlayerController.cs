@@ -150,7 +150,6 @@ namespace Player
             readyToJump = false;
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             Invoke(nameof(ResetJump), jumpCooldown);
-            
         }
 
         private void ResetJump()

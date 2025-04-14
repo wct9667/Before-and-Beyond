@@ -36,7 +36,6 @@ namespace Ability
             playerGameObject = GameObject.FindGameObjectWithTag("Player");
             playerRB = playerGameObject.GetComponent<Rigidbody>();
             player = playerGameObject.transform;
-            grappleLayerMask = LayerMask.GetMask("whatIsGround");
         }
 
         private void GrappleStart()
