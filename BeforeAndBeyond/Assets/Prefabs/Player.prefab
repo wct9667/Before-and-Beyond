@@ -51,21 +51,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputReader: {fileID: 11400000, guid: 1988d8f22756e6d448ac20da11c95867, type: 2}
+  settings: {fileID: 11400000, guid: a8883efd1b5b1d545bf24826cf8ed11a, type: 2}
   mainCamera: {fileID: 0}
-  sensX: 50
-  sensY: 50
   orientation: {fileID: 7965587912222201523}
-  playerHeight: 0
+  playerHeight: 1.7
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   grounded: 0
-  moveSpeed: 1
-  groundDrag: 0
-  jumpForce: 0
-  jumpCooldown: 0
-  airMultiplier: 0
-  readyToJump: 0
+  moveSpeed: 5
+  maxSpeed: 100
+  airMovementScalar: 1
 --- !u!114 &5944445937473390919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,7 +198,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8183023177969935836}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
