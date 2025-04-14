@@ -4,8 +4,11 @@ using UnityEngine;
 
 namespace Player
 {
+    [RequireComponent(typeof(PlayerState))]
     public class PlayerController : MonoBehaviour
     {
+        private PlayerState playerState;
+        
         [Header("Input")]
         [SerializeField] private InputReader inputReader;
 
@@ -39,11 +42,11 @@ namespace Player
         public float airMultiplier;
         public bool readyToJump;
 
-
-        private bool isControllerLook = false;
+        
         private Vector2 currentLookInput;
         private void Start()
         {
+            playerState = GetComponent<PlayerState>();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             rb = GetComponent<Rigidbody>();
@@ -55,7 +58,7 @@ namespace Player
             Vector2 moveVector = new Vector2(horizontalInput, verticalInput);
             Move(moveVector);
             
-            ApplyLook(currentLookInput, isControllerLook);
+            ApplyLook(currentLookInput);
 
             //ground check
             grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
@@ -102,41 +105,33 @@ namespace Player
             verticalInput = moveVector.y;
 
             moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-            rb.AddForce(moveDirection.normalized * moveSpeed * 2f, ForceMode.Force);
+            
+            
+            float percentIncrease = playerState.CurrentCharacter.percentSpeedIncrease;
+            float speedMultiplier = 1f + (percentIncrease / 100f);
+
+            rb.AddForce(moveDirection.normalized * (moveSpeed *  speedMultiplier), ForceMode.Force);
 
             if (grounded)
             {
-                rb.AddForce(moveDirection.normalized * moveSpeed * groundDrag, ForceMode.Force);
+                rb.AddForce(moveDirection.normalized * (moveSpeed * speedMultiplier * groundDrag), ForceMode.Force);
             }
             else
             {
-                rb.AddForce(moveDirection.normalized * moveSpeed * airMultiplier, ForceMode.Force);
+                rb.AddForce(moveDirection.normalized * (moveSpeed * speedMultiplier * airMultiplier), ForceMode.Force);
             }
-            Debug.Log($"Move x:{moveVector.x}, y:{moveVector.y} ");
         }
         
-        private void Look(Vector2 lookVector, bool isController)
+        private void Look(Vector2 lookVector)
         {
             currentLookInput = lookVector;
-            isControllerLook = isController;
         }
 
-        private void ApplyLook(Vector2 lookVector, bool isController)
+        private void ApplyLook(Vector2 lookVector)
         {
-            float mouseX;
-            float mouseY;
-
-            if (isController)
-            {
-                mouseX = lookVector.x * settings.sensX * Time.deltaTime;
-                mouseY = lookVector.y * settings.sensY * Time.deltaTime;
-            }
-            else
-            {
-                mouseX = lookVector.x * settings.sensX * Time.deltaTime;
-                mouseY = lookVector.y * settings.sensY * Time.deltaTime;
-            }
-
+            float mouseX = lookVector.x * settings.sensX * Time.deltaTime;
+            float mouseY = lookVector.y * settings.sensY * Time.deltaTime;
+           
             rotationY += mouseX;
             rotationX -= mouseY;
             
@@ -154,7 +149,6 @@ namespace Player
                 rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
                 Invoke(nameof(ResetJump), jumpCooldown);
             }
-            Debug.Log("Jump");
         }
 
         private void ResetJump()

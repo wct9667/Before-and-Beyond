@@ -21,7 +21,7 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
 
     //Gameplay Action
     public event UnityAction<Vector2> Move = delegate { };
-    public event UnityAction<Vector2, bool> Look = delegate { };
+    public event UnityAction<Vector2> Look = delegate { };
     public event UnityAction Interact = delegate { };
     public event UnityAction Jump = delegate { };
     public event UnityAction SwapCharacter = delegate { };
@@ -78,10 +78,10 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     public void OnLook(InputAction.CallbackContext context)
     {
         if(context.phase == InputActionPhase.Performed)
-            Look.Invoke(context.ReadValue<Vector2>(), context.control.device is Gamepad);
+            Look.Invoke(context.ReadValue<Vector2>());
         else if (context.phase == InputActionPhase.Canceled)
         {
-            Look.Invoke(new Vector2(0,0), context.control.device is Gamepad);
+            Look.Invoke(new Vector2(0,0));
         }
     }
 
