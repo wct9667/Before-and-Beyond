@@ -8132,6 +8132,7 @@ GameObject:
   - component: {fileID: 1931899933}
   - component: {fileID: 1931899935}
   - component: {fileID: 1931899934}
+  - component: {fileID: 1931899936}
   m_Layer: 0
   m_Name: SciFiCrosshair
   m_TagString: Untagged
@@ -8196,6 +8197,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931899932}
   m_CullTransparentMesh: 1
+--- !u!114 &1931899936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1931899932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bf99fef38149804482f5253629e4896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1965694660 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a43f27dc7aee36540a7a2b78f6d3180d,

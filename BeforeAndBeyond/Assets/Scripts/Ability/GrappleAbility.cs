@@ -6,7 +6,7 @@ namespace Ability
     public class GrappleHookAbility : AbstractAbility 
     {
         private RaycastHit hit;
-        private int maxDist = 200;
+        private float maxDist;
         private LayerMask layerMask;
 
         private GameObject playerGameObject;
@@ -34,12 +34,13 @@ namespace Ability
             playerRB = playerGameObject.GetComponent<Rigidbody>();
             player = playerGameObject.transform;
             layerMask = LayerMask.GetMask("whatIsGround");
+            maxDist = 45f;
         }
 
         private void GrappleStart()
         {
             monoBehavior = FindObjectOfType<MonoBehaviour>();
-            if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
+            if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, maxDist, layerMask))
             {
                 Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                 Debug.Log("-----------------------Did Hit: " + hit.point);
