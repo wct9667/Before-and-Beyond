@@ -19,7 +19,7 @@ namespace Player
         [Header("Look")]
         [SerializeField] Camera mainCamera;
         [SerializeField] Transform orientation;
-        private bool isController = false;
+        private bool isGamepad = false;
         private Vector2 currentLookInput;
         float rotationX;
         float rotationY;
@@ -38,11 +38,8 @@ namespace Player
         float verticalInput;
         Vector3 moveDirection;
         Rigidbody rb;
-        [SerializeField] private float groundDrag;
-
-        [Header("Jump")]
-        [SerializeField] private float jumpForce;
-        public int jumpCount;
+        
+        private int jumpCount;
         
         private void Start()
         {
@@ -58,7 +55,7 @@ namespace Player
             Vector2 moveVector = new Vector2(horizontalInput, verticalInput);
             Move(moveVector);
             
-            if(isController) Look(currentLookInput);
+            if(isGamepad) Look(currentLookInput);
 
             //ground check
             grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
@@ -66,14 +63,9 @@ namespace Player
 
             if (grounded)
             {
-                rb.drag = groundDrag;
                 jumpCount = 0;
             }
-            else
-            {
-                rb.drag = 0;
-            }
-            
+
             if (rb.velocity.magnitude > maxSpeed)
             {
                 rb.velocity = rb.velocity.normalized * maxSpeed;
@@ -120,12 +112,11 @@ namespace Player
             rb.AddForce(new Vector3(velocityChange.x, 0, velocityChange.z), ForceMode.VelocityChange);
         }
 
-        private void OnLook(Vector2 lookVector, bool isController)
+        private void OnLook(Vector2 lookVector, bool isGamepad)
         {
-            
             currentLookInput = lookVector;
-            this.isController = isController;
-            if (!isController) Look(currentLookInput);
+            this.isGamepad = isGamepad;
+            if (!isGamepad) Look(currentLookInput);
         }
 
         private void Look(Vector2 lookVector)
@@ -150,7 +141,7 @@ namespace Player
                 {
                     case 0:
                     case 1:
-                        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                        rb.AddForce(transform.up * playerState.CurrentCharacter.jumpForce, ForceMode.Impulse);
                         jumpCount++;
                         return;
                     default:
@@ -160,7 +151,7 @@ namespace Player
 
             if (!grounded) return;
             
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(transform.up * playerState.CurrentCharacter.jumpForce, ForceMode.Impulse);
             jumpCount++;
         }
     }

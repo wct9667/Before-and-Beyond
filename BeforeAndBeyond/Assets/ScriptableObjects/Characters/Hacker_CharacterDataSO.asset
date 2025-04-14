@@ -15,6 +15,7 @@ MonoBehaviour:
   characterType: 1
   percentDamageReduction: 0
   percentSpeedIncrease: 50
+  jumpForce: 8
   canDoubleJump: 1
   canDash: 1
   abilities:

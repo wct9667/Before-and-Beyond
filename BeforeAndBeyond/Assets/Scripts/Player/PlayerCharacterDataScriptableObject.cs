@@ -20,6 +20,7 @@ namespace Player
         [Header("Passive Modifiers")]
         [Range(0,100)]  public float percentDamageReduction;
         [Range(0,1000)] public float percentSpeedIncrease;
+        public float jumpForce;
         public bool canDoubleJump;
         public bool canDash;
 
