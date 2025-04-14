@@ -31,6 +31,7 @@ namespace Player
         [Header("Movement")]
         [SerializeField] private float moveSpeed;
         [SerializeField] private float maxSpeed = 100;
+        [SerializeField] private float airMovementScalar = 1f;
         
         float horizontalInput;
         float verticalInput;
@@ -39,11 +40,9 @@ namespace Player
         [SerializeField] private float groundDrag;
 
         [Header("Jump")]
-        public float jumpForce;
-        public float jumpCooldown;
-        public float airMultiplier;
-        public bool readyToJump;
-
+        [SerializeField] private float jumpForce;
+        public int jumpCount;
+        
         private void Start()
         {
             playerState = GetComponent<PlayerState>();
@@ -67,12 +66,10 @@ namespace Player
             if (grounded)
             {
                 rb.drag = groundDrag;
-                readyToJump = true;
             }
             else
             {
                 rb.drag = 0;
-                readyToJump = false;
             }
             
             if (rb.velocity.magnitude > maxSpeed)
@@ -112,7 +109,8 @@ namespace Player
             float percentIncrease = playerState.CurrentCharacter.percentSpeedIncrease;
             float speedMultiplier = 1f + (percentIncrease / 100f);
 
-            Vector3 targetVelocity = moveDirection * (moveSpeed * speedMultiplier);
+            float airDrag = grounded ? 1 : airMovementScalar;
+            Vector3 targetVelocity = moveDirection * (moveSpeed * speedMultiplier * airDrag);
             
             Vector3 currentVelocity = rb.velocity;
             Vector3 velocityChange = targetVelocity - new Vector3(currentVelocity.x, 0, currentVelocity.z);
@@ -141,20 +139,21 @@ namespace Player
             mainCamera.transform.rotation = Quaternion.Euler(rotationX, rotationY, 0);
             orientation.rotation = Quaternion.Euler(0, rotationY, 0);
         }
-
+        
         private void Jump()
         {
-            //rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // freeze y velocity
-            if (!grounded && !readyToJump) return;
-            
-            readyToJump = false;
-            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            Invoke(nameof(ResetJump), jumpCooldown);
-        }
+            if (playerState.CurrentCharacter.canDoubleJump && jumpCount == 1)
+            {
+                rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                jumpCount++;
+                return;
+            }
 
-        private void ResetJump()
-        {
-            readyToJump = true;
+            if (!grounded) return;
+            
+            
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            jumpCount = 1;
         }
     }
 }
