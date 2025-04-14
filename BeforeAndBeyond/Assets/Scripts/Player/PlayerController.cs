@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -66,6 +67,7 @@ namespace Player
             if (grounded)
             {
                 rb.drag = groundDrag;
+                jumpCount = 0;
             }
             else
             {
@@ -142,18 +144,23 @@ namespace Player
         
         private void Jump()
         {
-            if (playerState.CurrentCharacter.canDoubleJump && jumpCount == 1)
+            if (playerState.CurrentCharacter.canDoubleJump)
             {
-                rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                jumpCount++;
-                return;
+                switch (jumpCount)
+                {
+                    case 0:
+                    case 1:
+                        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+                        jumpCount++;
+                        return;
+                    default:
+                        return;
+                }
             }
 
             if (!grounded) return;
             
-            
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            jumpCount = 1;
         }
     }
 }
