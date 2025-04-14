@@ -5,9 +5,12 @@ namespace Ability
     [CreateAssetMenu(menuName = "Player/Abilities/GrappleHookAbility", fileName = "GrappleHookAbilitySO")]
     public class GrappleHookAbility : AbstractAbility 
     {
+        [Header("Ability Attributes")]
         [SerializeField] private float maxDist = 45;
+        [SerializeField]  private LayerMask grappleLayerMask;
+        
+        
         private RaycastHit hit;
-        private LayerMask layerMask;
 
         private GameObject playerGameObject;
         private Transform camera, player;
@@ -33,13 +36,13 @@ namespace Ability
             playerGameObject = GameObject.FindGameObjectWithTag("Player");
             playerRB = playerGameObject.GetComponent<Rigidbody>();
             player = playerGameObject.transform;
-            layerMask = LayerMask.GetMask("whatIsGround");
+            grappleLayerMask = LayerMask.GetMask("whatIsGround");
         }
 
         private void GrappleStart()
         {
             monoBehavior = FindObjectOfType<MonoBehaviour>();
-            if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, maxDist, layerMask))
+            if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, maxDist, grappleLayerMask))
             {
                 Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                 Debug.Log("-----------------------Did Hit: " + hit.point);

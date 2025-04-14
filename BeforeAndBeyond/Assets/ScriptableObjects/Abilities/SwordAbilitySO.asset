@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 21300000, guid: d6081babbbd154a78b79d1e213cbae8a, type: 3}
   abilityCooldown: 0.6
+  attackReach: 3
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128

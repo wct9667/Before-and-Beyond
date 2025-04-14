@@ -6,10 +6,12 @@ namespace Ability
     [CreateAssetMenu(menuName = "Player/Abilities")]
     public class AbstractAbility : ScriptableObject
     {
+        
+        [Header("Overall Attributes")]
         [SerializeField] private Sprite image;
-        public Sprite Image => image;
-
         [SerializeField] private float abilityCooldown;
+       
+        public Sprite Image => image;
         public float AbilityCooldown => abilityCooldown;
         
         /// <summary>
