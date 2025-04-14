@@ -54,6 +54,8 @@ namespace Player
         {
             Vector2 moveVector = new Vector2(horizontalInput, verticalInput);
             Move(moveVector);
+            
+            ApplyLook(currentLookInput, isControllerLook);
 
             //ground check
             grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
@@ -74,7 +76,7 @@ namespace Player
         private void OnEnable()
         {
             //setup input maps
-            inputReader.Move += Move;
+            inputReader.Move += OnMove;
             inputReader.Look += Look;
             inputReader.Jump += Jump;
         }
@@ -83,11 +85,17 @@ namespace Player
         private void OnDisable()
         {
             //setup input maps
-            inputReader.Move -= Move;
+            inputReader.Move -= OnMove;
             inputReader.Look -= Look;
             inputReader.Jump -= Jump;
         }
-    
+
+
+        private void OnMove(Vector2 moveVector)
+        {
+            horizontalInput = moveVector.x;
+            verticalInput = moveVector.y;
+        }
         private void Move(Vector2 moveVector)
         {
             horizontalInput = moveVector.x;
@@ -111,12 +119,6 @@ namespace Player
         {
             currentLookInput = lookVector;
             isControllerLook = isController;
-        }
-
-        
-        private void Update()
-        {
-            ApplyLook(currentLookInput, isControllerLook);
         }
 
         private void ApplyLook(Vector2 lookVector, bool isController)
