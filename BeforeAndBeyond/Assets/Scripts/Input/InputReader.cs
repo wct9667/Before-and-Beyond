@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
 
 [CreateAssetMenu(fileName = "InputReader", menuName = "Input/Input Reader")]
 public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, InputSystem_Actions.IPlayerActions
@@ -27,6 +26,8 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     public event UnityAction Jump = delegate { };
     public event UnityAction SwapCharacter = delegate { };
     public event UnityAction StartingAbility = delegate { };
+    
+    public event UnityAction SecondAbility = delegate { };
     public event UnityAction Pause = delegate { };
 
     /// <summary>
@@ -103,6 +104,12 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     {
         if (context.phase == InputActionPhase.Performed) 
             StartingAbility.Invoke();
+    }
+    
+    public void OnSecondAbility(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed) 
+            SecondAbility.Invoke();
     }
     
     #endregion
