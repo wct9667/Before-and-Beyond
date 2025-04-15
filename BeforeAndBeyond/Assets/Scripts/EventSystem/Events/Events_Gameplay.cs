@@ -33,3 +33,5 @@ public struct AbilitiesSwapped : IEvent
 {
     [CanBeNull] public Dictionary<AbstractAbility, float> cooldowns;
 }
+
+public struct HelmetSettingChange : IEvent{}

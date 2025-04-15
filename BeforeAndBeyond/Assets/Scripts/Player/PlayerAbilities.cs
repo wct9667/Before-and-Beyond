@@ -46,6 +46,7 @@ namespace Player
         private void OnEnable()
         {
             inputReader.StartingAbility += StartingAbility;
+            inputReader.SecondAbility += SecondAbility;
             characterSwapEventBinding = new EventBinding<CharacterSwap>(()=>
             {
                 InitializeCoolDownsForCurrentCharacter();
@@ -57,6 +58,7 @@ namespace Player
         private void OnDisable()
         {
             inputReader.StartingAbility -= StartingAbility;
+            inputReader.SecondAbility -= SecondAbility;
             EventBus<CharacterSwap>.Deregister(characterSwapEventBinding);
         }
 
@@ -78,6 +80,19 @@ namespace Player
         private void StartingAbility()
         {
             AbstractAbility ability = playerState.CurrentCharacter.StartingAbility;
+
+            if (abilityCooldowns[ability] > 0f) return;
+            ability.ActivateAbility();
+            abilityCooldowns[ability] = ability.AbilityCooldown;
+        }
+        
+        /// <summary>
+        /// Calls the Second ability from the data in player state
+        /// Checks cooldown
+        /// </summary>
+        private void SecondAbility()
+        {
+            AbstractAbility ability = playerState.CurrentCharacter.SecondAbility;
 
             if (abilityCooldowns[ability] > 0f) return;
             ability.ActivateAbility();
