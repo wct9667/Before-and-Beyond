@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using Player;
+
 namespace Ability
 {
     [CreateAssetMenu(menuName = "Player/Abilities/GrappleHookAbility", fileName = "GrappleHookAbilitySO")]
@@ -18,7 +20,7 @@ namespace Ability
 
         private float startTime;
 
-        private MonoBehaviour monoBehavior;
+        private PlayerController playerController;
 
         public override void ActivateAbility()
         {
@@ -34,13 +36,12 @@ namespace Ability
         {
             camera = Camera.main.transform;
             playerGameObject = GameObject.FindGameObjectWithTag("Player");
-            playerRB = playerGameObject.GetComponent<Rigidbody>();
             player = playerGameObject.transform;
+            playerController = playerGameObject.GetComponent<PlayerController>();
         }
 
         private void GrappleStart()
         {
-            monoBehavior = FindObjectOfType<MonoBehaviour>();
             if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, maxDist, grappleLayerMask))
             {
                 this.AbilityCooldown = nonRefundedCooldown;
@@ -48,7 +49,7 @@ namespace Ability
                 Debug.Log("-----------------------Did Hit: " + hit.point);
 
                 DrawGrapple();
-                monoBehavior.StartCoroutine(GrappleMovement());
+                playerController.Grapple(startTime, hit);
             }
             else
             {
@@ -58,21 +59,6 @@ namespace Ability
                 Debug.Log("-----------------------Did not Hit");
             }
 
-        }
-         
-        private IEnumerator GrappleMovement()
-        {
-
-            while (Vector3.Distance(player.transform.position, hit.point) > 0.5f)
-            {
-                player.transform.position = Vector3.Lerp(player.transform.position, hit.point, (Time.time - startTime));
-
-                playerRB.AddForce(0, 0.2f, 0, ForceMode.Impulse);
-
-                yield return null;
-
-            }
-            yield return new WaitForSeconds(2f);
         }
 
         private void DrawGrapple()

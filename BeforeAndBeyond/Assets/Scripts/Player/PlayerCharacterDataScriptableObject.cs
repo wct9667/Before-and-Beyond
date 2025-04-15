@@ -29,10 +29,9 @@ namespace Player
         public List<Ability.AbstractAbility> Abilities => abilities;
         public Ability.AbstractAbility AbilityAt(int index)
         {
-
-                if (abilities != null && abilities.Count > index) return abilities[index];
-                Debug.LogWarning("StartingAbility: abilities list is empty or null.");
-                return null;
+            if (abilities != null && abilities.Count > index) return abilities[index];
+            Debug.LogWarning("Requested ability does not exist, abilities list count exceeded.");
+            return null;
         }
     }
 }
