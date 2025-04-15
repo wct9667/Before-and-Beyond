@@ -16,9 +16,12 @@ namespace Ability
         private GameObject playerGameObject;
         private Rigidbody playerRB;
 
+        private Vector3 floatPos;
+
         private Transform camera, player;
         private Animator anim;
         private RaycastHit hit;
+        private RaycastHit enemyHit;
 
         private float startTime;
 
@@ -56,6 +59,7 @@ namespace Ability
                 Debug.Log("-----------------------Did Slam: " + hit.point);
 
                 anim.SetTrigger("Slam");
+                floatPos = player.transform.position;
                 monoBehavior.StartCoroutine(SlamMovement());
             }
             else
@@ -69,26 +73,38 @@ namespace Ability
 
         private IEnumerator SlamMovement()
         {
+            player.transform.position = floatPos;
+            yield return new WaitForSeconds(.25f);
 
-            while (Vector3.Distance(player.transform.position, hit.point) > 0.2f)
+            startTime = Time.time;
+
+            while (Vector3.Distance(player.transform.position, hit.point) > 1.0f)
             {
-                player.transform.position = Vector3.Lerp(player.transform.position, hit.point, (Time.time - startTime));
-
-                anim.SetTrigger("SlamEnd");
-                HitTarget();
-
+                player.transform.position = Vector3.Lerp(player.transform.position, hit.point, (Time.time - startTime) * 0.5f);
                 yield return null;
 
             }
-            yield return new WaitForSeconds(2f);
+            HitTarget();
+            yield return new WaitForSeconds(.25f);
+            anim.SetTrigger("SlamEnd");
+
+            yield return new WaitForSeconds(.1f);
+
         }
 
         private void HitTarget()
         {
-            Debug.Log("Enemy in Range");
-
             //replace with actually dealing damage
-            //Destroy(hit.transform.gameObject, .25f);
+
+
+            Collider[] enemiesDetected = Physics.OverlapSphere(player.transform.position, slamRadius, enemyLayerMask);
+            foreach (var enemy in enemiesDetected)
+            {
+                Debug.Log("Enemy in Range at: " + enemy.transform.position);
+                Destroy(enemy.transform.gameObject, .25f);
+            }
+
+           
         }
     }
 }
