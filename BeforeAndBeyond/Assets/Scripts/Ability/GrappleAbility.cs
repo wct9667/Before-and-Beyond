@@ -7,7 +7,7 @@ namespace Ability
     {
         [Header("Ability Attributes")]
         [SerializeField] private float maxDist = 45;
-        [SerializeField]  private LayerMask grappleLayerMask;
+        [SerializeField] private LayerMask grappleLayerMask;
         [SerializeField] private float nonRefundedCooldown = 2;
 
         private RaycastHit hit;
