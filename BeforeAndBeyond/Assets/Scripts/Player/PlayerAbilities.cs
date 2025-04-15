@@ -79,7 +79,7 @@ namespace Player
         /// </summary>
         private void StartingAbility()
         {
-            AbstractAbility ability = playerState.CurrentCharacter.StartingAbility;
+            AbstractAbility ability = playerState.CurrentCharacter.AbilityAt(0);
 
             if (abilityCooldowns[ability] > 0f) return;
             ability.ActivateAbility();
@@ -92,7 +92,7 @@ namespace Player
         /// </summary>
         private void SecondAbility()
         {
-            AbstractAbility ability = playerState.CurrentCharacter.SecondAbility;
+            AbstractAbility ability = playerState.CurrentCharacter.AbilityAt(1);
 
             if (abilityCooldowns[ability] > 0f) return;
             ability.ActivateAbility();
