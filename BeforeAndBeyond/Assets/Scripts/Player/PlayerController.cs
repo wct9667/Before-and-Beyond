@@ -1,5 +1,6 @@
 using System;
 using Unity.VisualScripting;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 
@@ -38,7 +39,10 @@ namespace Player
         float verticalInput;
         Vector3 moveDirection;
         Rigidbody rb;
-        
+
+
+        [Header("Jump")] 
+        [SerializeField] private float groundDistance;
         private int jumpCount;
         
         private void Start()
@@ -57,14 +61,10 @@ namespace Player
             
             if(isGamepad) Look(currentLookInput);
 
-            //ground check
-            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + groundDistance, whatIsGround);
+            if (grounded) jumpCount = 0;
             
 
-            if (grounded)
-            {
-                jumpCount = 0;
-            }
 
             if (rb.velocity.magnitude > maxSpeed)
             {
@@ -133,24 +133,23 @@ namespace Player
             orientation.rotation = Quaternion.Euler(0, rotationY, 0);
         }
         
+        /// <summary>
+        /// Jumps up, cancels current y
+        /// Only jumps if double jump available or if grounded
+        /// </summary>
         private void Jump()
         {
-            if (playerState.CurrentCharacter.canDoubleJump)
-            {
-                switch (jumpCount)
-                {
-                    case 0:
-                    case 1:
-                        rb.AddForce(transform.up * playerState.CurrentCharacter.jumpForce, ForceMode.Impulse);
-                        jumpCount++;
-                        return;
-                    default:
-                        return;
-                }
-            }
-
-            if (!grounded) return;
+            if (!grounded && !playerState.CurrentCharacter.canDoubleJump) return;
             
+            switch (jumpCount)
+            {
+                case 0: 
+                    break;
+                default: 
+                    return;
+            }
+            
+            rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
             rb.AddForce(transform.up * playerState.CurrentCharacter.jumpForce, ForceMode.Impulse);
             jumpCount++;
         }
