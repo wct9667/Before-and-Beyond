@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Ability;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Player
 {
+    
+    public enum AbilityType
+    {
+        Starting,
+        Second,
+        Third,
+        Fourth
+    }
     [RequireComponent(typeof(PlayerState))]
     public class PlayerAbilities : MonoBehaviour
     {
@@ -19,6 +28,8 @@ namespace Player
         
         //events
         private EventBinding<CharacterSwap> characterSwapEventBinding;
+
+        private Dictionary<AbilityType, UnityAction> abilityHandler;
 
         private void Awake()
         {
@@ -45,8 +56,16 @@ namespace Player
 
         private void OnEnable()
         {
-            inputReader.StartingAbility += StartingAbility;
-            inputReader.SecondAbility += SecondAbility;
+            abilityHandler = new Dictionary<AbilityType, UnityAction>
+            {
+                { AbilityType.Starting, () => PerformAbility(0) },
+                { AbilityType.Second, () => PerformAbility(1) }
+            };
+
+            inputReader.StartingAbility += abilityHandler[AbilityType.Starting];
+            
+            inputReader.SecondAbility += abilityHandler[AbilityType.Second];
+  
             characterSwapEventBinding = new EventBinding<CharacterSwap>(()=>
             {
                 InitializeCoolDownsForCurrentCharacter();
@@ -57,8 +76,8 @@ namespace Player
         
         private void OnDisable()
         {
-            inputReader.StartingAbility -= StartingAbility;
-            inputReader.SecondAbility -= SecondAbility;
+            inputReader.StartingAbility -= abilityHandler[AbilityType.Starting];
+            inputReader.SecondAbility -= abilityHandler[AbilityType.Second];
             EventBus<CharacterSwap>.Deregister(characterSwapEventBinding);
         }
 
@@ -77,28 +96,15 @@ namespace Player
         /// Calls the starting ability from the data in player state
         /// Checks cooldown
         /// </summary>
-        private void StartingAbility()
+        private void PerformAbility(int index)
         {
-            AbstractAbility ability = playerState.CurrentCharacter.AbilityAt(0);
-
+            AbstractAbility ability = playerState.CurrentCharacter.AbilityAt(index);
+            if (!ability) return;
             if (abilityCooldowns[ability] > 0f) return;
             ability.ActivateAbility();
             abilityCooldowns[ability] = ability.AbilityCooldown;
         }
-        
-        /// <summary>
-        /// Calls the Second ability from the data in player state
-        /// Checks cooldown
-        /// </summary>
-        private void SecondAbility()
-        {
-            AbstractAbility ability = playerState.CurrentCharacter.AbilityAt(1);
 
-            if (abilityCooldowns[ability] > 0f) return;
-            ability.ActivateAbility();
-            abilityCooldowns[ability] = ability.AbilityCooldown;
-        }
-        
         /// <summary>
         /// CoolDowns for a character, sets them up
         /// </summary>

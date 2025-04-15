@@ -1,6 +1,4 @@
-using System;
-using Unity.VisualScripting;
-using UnityEditor.VersionControl;
+using System.Collections;
 using UnityEngine;
 
 
@@ -152,6 +150,26 @@ namespace Player
             rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
             rb.AddForce(transform.up * playerState.CurrentCharacter.jumpForce, ForceMode.Impulse);
             jumpCount++;
+        }
+
+
+
+        public void Grapple(float startTime, RaycastHit hit)
+        {
+            StartCoroutine(GrappleMovement(startTime, hit));
+        }
+        private IEnumerator GrappleMovement(float startTime, RaycastHit hit)
+        {
+            while (Vector3.Distance(transform.position, hit.point) > 0.5f)
+            {
+                transform.position = Vector3.Lerp(transform.position, hit.point, (Time.time - startTime));
+
+                rb.AddForce(0, 0.2f, 0, ForceMode.Impulse);
+
+                yield return null;
+
+            }
+            yield return new WaitForSeconds(2f);
         }
     }
 }
