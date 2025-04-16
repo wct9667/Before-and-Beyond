@@ -16,8 +16,6 @@ namespace Ability
         private GameObject playerGameObject;
         private Rigidbody playerRB;
 
-        private Vector3 floatPos;
-
         private Transform camera, player;
         private Animator anim;
         private RaycastHit hit;
@@ -51,40 +49,53 @@ namespace Ability
         {
             monoBehavior = FindObjectOfType<MonoBehaviour>();
 
-            if (Physics.Raycast(player.transform.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity, groundLayerMask))
+            if(!Physics.Raycast(player.transform.position, player.TransformDirection(Vector3.down), 5f))
             {
+                if (Physics.Raycast(player.transform.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity, groundLayerMask))
+                {
 
-                this.AbilityCooldown = nonRefundedCooldown;
-                Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                Debug.Log("-----------------------Did Slam: " + hit.point);
+                    this.AbilityCooldown = nonRefundedCooldown;
+                    Debug.Log("-----------------------Did Slam: " + hit.point);
 
-                anim.SetTrigger("Slam");
-                floatPos = player.transform.position;
-                monoBehavior.StartCoroutine(SlamMovement());
+                    anim.SetTrigger("Slam");
+                    monoBehavior.StartCoroutine(SlamMovement());
+                }
+                else
+                {
+                    this.AbilityCooldown = 0;
+
+                    Debug.Log("-----------------------Did not Slam");
+                }
             }
             else
             {
                 this.AbilityCooldown = 0;
 
-                Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * 1000, Color.white);
                 Debug.Log("-----------------------Did not Slam");
             }
+
+
         }
 
         private IEnumerator SlamMovement()
         {
-            player.transform.position = floatPos;
+            playerRB.AddForce(0, 15f, 0, ForceMode.Impulse);
+
             yield return new WaitForSeconds(.25f);
 
             startTime = Time.time;
 
             while (Vector3.Distance(player.transform.position, hit.point) > 1.0f)
             {
-                player.transform.position = Vector3.Lerp(player.transform.position, hit.point, (Time.time - startTime) * 0.5f);
+                player.transform.position = Vector3.Lerp(player.transform.position, hit.point, (Time.time - startTime));
                 yield return null;
 
             }
+
             HitTarget();
+            playerRB.velocity = new Vector3(playerRB.velocity.x, 0.0f, playerRB.velocity.z);
+
+            monoBehavior.StartCoroutine(DrawEffect());
             yield return new WaitForSeconds(.25f);
             anim.SetTrigger("SlamEnd");
 
@@ -103,8 +114,47 @@ namespace Ability
                 Debug.Log("Enemy in Range at: " + enemy.transform.position);
                 Destroy(enemy.transform.gameObject, .25f);
             }
+        }
 
-           
+        private IEnumerator DrawEffect()
+        {
+            GameObject circle = new GameObject();
+            LineRenderer drawLine;
+
+            drawLine = circle.AddComponent<LineRenderer>();
+            drawLine.material = new Material(Shader.Find("Sprites/Default"));
+
+            drawLine.positionCount = 51;
+            drawLine.useWorldSpace = false;
+
+            float x;
+            float z;
+
+            float angle = 20f;
+
+            drawLine.startColor = Color.yellow;
+            drawLine.endColor = Color.yellow;
+
+            drawLine.startWidth = .5f;
+            drawLine.endWidth = .5f;
+
+            for (float j = 0; j < slamRadius; j = j + 0.1f)
+            {
+                for (int i = 0; i < (51); i++)
+                {
+                    x = Mathf.Sin(Mathf.Deg2Rad * angle) * j;
+                    z = Mathf.Cos(Mathf.Deg2Rad * angle) * j;
+
+                    drawLine.SetPosition(i, new Vector3(player.transform.position.x + x, player.transform.position.y, player.transform.position.z + z));
+
+                    angle += (390f / 51);
+                }
+                yield return new WaitForSeconds(.0015f);
+                GameObject.Destroy(circle, .2f);
+
+            }
+            yield return new WaitForSeconds(.1f);
+
         }
     }
 }
