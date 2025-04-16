@@ -138,16 +138,19 @@ namespace Ability
             drawLine.startWidth = .5f;
             drawLine.endWidth = .5f;
 
-            for (float j = 0; j < slamRadius; j = j + 0.1f)
+            for (float j = 0; j < slamRadius; j = j + (slamRadius/80f))
             {
                 for (int i = 0; i < (51); i++)
                 {
-                    x = Mathf.Sin(Mathf.Deg2Rad * angle) * j;
-                    z = Mathf.Cos(Mathf.Deg2Rad * angle) * j;
+                    if(drawLine != null)
+                    {
+                        x = Mathf.Sin(Mathf.Deg2Rad * angle) * j;
+                        z = Mathf.Cos(Mathf.Deg2Rad * angle) * j;
 
-                    drawLine.SetPosition(i, new Vector3(player.transform.position.x + x, player.transform.position.y, player.transform.position.z + z));
+                        drawLine.SetPosition(i, new Vector3(player.transform.position.x + x, player.transform.position.y, player.transform.position.z + z));
 
-                    angle += (390f / 51);
+                        angle += (390f / 51);
+                    }
                 }
                 yield return new WaitForSeconds(.0015f);
                 GameObject.Destroy(circle, .2f);
