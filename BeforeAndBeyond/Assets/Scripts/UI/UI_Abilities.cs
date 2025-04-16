@@ -42,24 +42,23 @@ public class UI_Abilities : MonoBehaviour
         }
         
         icons.Clear();
-
-        int index = 0;
+        
         foreach (KeyValuePair<AbstractAbility, float> kvp in coolDowns)
         {
-            icons.Add(Instantiate(abilityPrefab, transform));
-            icons[index].Icon.sprite = kvp.Key.Image;
-            icons[index].Fill.fillAmount = 1;
+            UI_Ability ability = Instantiate(abilityPrefab, transform);
+            icons.Add(ability);
+            ability.Icon.sprite = kvp.Key.Image;
+            ability.Fill.fillAmount = 1;
         }
-
     }
 
     private void UpdateAbilities()
     {
-        int index = coolDowns.Count -1;
+        int index = 0;
         foreach (KeyValuePair<AbstractAbility, float> kvp in coolDowns)
         {
            icons[index].Fill.fillAmount = (kvp.Value)/ kvp.Key.AbilityCooldown;
-           index--;
+           index++;
         }
     }
 
