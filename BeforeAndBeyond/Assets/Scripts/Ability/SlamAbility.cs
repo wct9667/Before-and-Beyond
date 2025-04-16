@@ -87,7 +87,7 @@ namespace Ability
 
             while (Vector3.Distance(player.transform.position, hit.point) > 1.0f)
             {
-                player.transform.position = Vector3.Lerp(player.transform.position, hit.point, (Time.time - startTime));
+                player.transform.position = Vector3.Lerp(player.transform.position, hit.point, (Time.time - startTime) * 0.85f);
                 yield return null;
 
             }
