@@ -6,7 +6,8 @@ namespace Ability
     public class SwordAbility : AbstractAbility
     {
         [Header("Ability Attributes")]
-        [SerializeField] private float attackReach = 3.0f;
+        [SerializeField] private float attackReach = 3.5f;
+        [SerializeField] private float attackWidthRadius = 2.0f;
         [SerializeField] private LayerMask enemyLayerMask;
         
         private GameObject sword;
@@ -37,7 +38,7 @@ namespace Ability
 
         private void AttackRay()
         {
-            if(Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, attackReach, enemyLayerMask))
+            if(Physics.SphereCast(camera.transform.position, attackWidthRadius, camera.TransformDirection(Vector3.forward), out hit, attackReach, enemyLayerMask))
             {
                 HitTarget();
             }
