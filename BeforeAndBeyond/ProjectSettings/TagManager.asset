@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Sword
   - Shield
+  - Grapple
   layers:
   - Default
   - TransparentFX

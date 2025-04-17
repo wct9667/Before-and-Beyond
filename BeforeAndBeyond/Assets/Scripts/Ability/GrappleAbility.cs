@@ -11,12 +11,17 @@ namespace Ability
         [SerializeField] private float maxDist = 45;
         [SerializeField] private LayerMask grappleLayerMask;
         [SerializeField] private float nonRefundedCooldown = 2;
+        [SerializeField] private float grappleSpeed = 0.5f;
 
         private RaycastHit hit;
 
         private GameObject playerGameObject;
         private Transform camera, player;
         private Rigidbody playerRB;
+
+        private Animator anim;
+        private GameObject gun;
+        private Transform gunTip;
 
         private float startTime;
 
@@ -38,6 +43,12 @@ namespace Ability
             playerGameObject = GameObject.FindGameObjectWithTag("Player");
             player = playerGameObject.transform;
             playerController = playerGameObject.GetComponent<PlayerController>();
+
+            gun = GameObject.FindGameObjectWithTag("Grapple");
+            anim = gun.GetComponent<Animator>();
+
+            gunTip = gun.transform.Find("GunTip");
+
         }
 
         private void GrappleStart()
@@ -45,11 +56,13 @@ namespace Ability
             if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, maxDist, grappleLayerMask))
             {
                 this.AbilityCooldown = nonRefundedCooldown;
+                anim.SetTrigger("Shoot");
+
                 Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                 Debug.Log("-----------------------Did Hit: " + hit.point);
 
                 DrawGrapple();
-                playerController.Grapple(startTime, hit);
+                playerController.Grapple(startTime, hit, grappleSpeed);
             }
             else
             {
@@ -75,7 +88,7 @@ namespace Ability
             drawLine.startWidth = .01f;
             drawLine.endWidth = .1f;
 
-            drawLine.SetPosition(0, player.transform.position);
+            drawLine.SetPosition(0, gunTip.transform.position);
             drawLine.SetPosition(1, hit.point);
 
             GameObject.Destroy(grappleLine, .25f);

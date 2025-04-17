@@ -19,3 +19,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   nonRefundedCooldown: 4
+  grappleSpeed: 0.25
