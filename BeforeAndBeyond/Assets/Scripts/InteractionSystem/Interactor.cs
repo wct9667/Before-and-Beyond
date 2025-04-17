@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Interactor : MonoBehaviour
 {
@@ -59,7 +57,7 @@ public class Interactor : MonoBehaviour
         }
         else
         {
-            if (interactable != null) interactable = null;
+            interactable = null;
             if(interactionUI.IsDisplayed) interactionUI.Close();
         }
     }

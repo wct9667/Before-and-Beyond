@@ -1,27 +1,29 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class BillboardUIPrompt : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI promptText;
-    [SerializeField] private Canvas uIPanel;
+    private Canvas uIPanel;
 
     [SerializeField] private Image buttonPrompt;
     [SerializeField] private Sprite[] interactButtons;
-    private string deviceManufacturer;
-    private string deviceName;
 
+    private InputDevice device;
+
+    [SerializeField] private InputReader inputReader;
+    
     const int PlayStationPrompt = 0;
     const int XboxPrompt = 1;
     const int KeyboardPrompt = 2;
 
-    public string DeviceManufacturer { get { return deviceManufacturer; } }
-    public string DeviceName { get { return deviceName; } }
-
-    
-
-    private Camera mainCam;
+    private void Awake()
+    {
+        uIPanel = GetComponent<Canvas>();
+    }
 
     private bool isDisplayed;
 
@@ -34,17 +36,7 @@ public class BillboardUIPrompt : MonoBehaviour
     {
         uIPanel = GetComponent<Canvas>();
         uIPanel.enabled = false;
-        mainCam = Camera.main;
-
-        deviceName = transform.parent.parent.GetComponent<UnityEngine.InputSystem.PlayerInput>().devices[0].name;
-        deviceManufacturer = transform.parent.parent.GetComponent<UnityEngine.InputSystem.PlayerInput>().devices[0].description.manufacturer;
-    }
-
-    private void LateUpdate()
-    {
-        Quaternion rotation = mainCam.transform.rotation;
-        transform.LookAt(transform.position + rotation * Vector3.forward,
-            rotation * Vector3.up);
+        device = inputReader.DeviceType;
     }
 
     /// <summary>
@@ -62,20 +54,20 @@ public class BillboardUIPrompt : MonoBehaviour
         else
         {
             buttonPrompt.enabled = true;
-            if (deviceManufacturer != null && deviceManufacturer.Equals("Sony Interactive Entertainment"))
+            if (device is Gamepad)
             {
-                buttonPrompt.sprite = interactButtons[PlayStationPrompt];
+                buttonPrompt.sprite = interactButtons[XboxPrompt];
             }
-            else if (deviceName != null && deviceName.Equals("Keyboard"))
+            else if (device is Keyboard || device is Mouse)
             {
                 buttonPrompt.sprite = interactButtons[KeyboardPrompt];
             }
             else
             {
-                buttonPrompt.sprite = interactButtons[XboxPrompt];
+                buttonPrompt.sprite = interactButtons[PlayStationPrompt];
             }
 
-            this.promptText.text = "Press      to " + promptText;
+            this.promptText.text = promptText;
         }
         uIPanel.enabled = true;
         isDisplayed = true;
