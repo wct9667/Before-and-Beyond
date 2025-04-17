@@ -26,7 +26,7 @@ public struct CharacterSwap : IEvent
 }
 
 /// <summary>
-/// Unlike the character swap, this event is fired after the chatacter has been swapped.
+/// Unlike the character swap, this event is fired after the character has been swapped.
 /// Think order of operations
 /// </summary>
 public struct AbilitiesSwapped : IEvent
@@ -35,3 +35,15 @@ public struct AbilitiesSwapped : IEvent
 }
 
 public struct HelmetSettingChange : IEvent{}
+
+public struct ChangePlayerHealth : IEvent
+{
+    public float healthChange;
+    [CanBeNull] public float maxHealth;
+}
+
+public struct ChangePlayerHealthUI : IEvent
+{
+    public float playerHealth;
+    public float playerMaxHealth;
+}
