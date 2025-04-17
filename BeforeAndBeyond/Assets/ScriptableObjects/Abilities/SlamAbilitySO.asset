@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 21300000, guid: ef6e5ac931b41d043b485f54234d4daa, type: 3}
   abilityCooldown: 6
-  slamRadius: 8
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -22,3 +21,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   nonRefundedCooldown: 6
+  scalePerUnit: 1

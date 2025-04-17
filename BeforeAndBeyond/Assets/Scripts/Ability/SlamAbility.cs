@@ -7,14 +7,18 @@ namespace Ability
     public class SlamAbility : AbstractAbility
     {
         [Header("Ability Attributes")]
-        [SerializeField] private float slamRadius = 8.0f;
         [SerializeField] private LayerMask enemyLayerMask;
         [SerializeField] private LayerMask groundLayerMask;
         [SerializeField] private float nonRefundedCooldown = 2;
 
+        [Header("Range Per Unit Fell")]
+        [SerializeField] private float scalePerUnit = .5f;
+
         private GameObject sword;
         private GameObject playerGameObject;
         private Rigidbody playerRB;
+
+        private float raycastDist;
 
         private Transform camera, player;
         private Animator anim;
@@ -56,6 +60,9 @@ namespace Ability
 
                     this.AbilityCooldown = nonRefundedCooldown;
                     Debug.Log("-----------------------Did Slam: " + hit.point);
+
+                    raycastDist = hit.distance;
+                    Debug.Log("-----------------------Value: " + scalePerUnit * raycastDist);
 
                     anim.SetTrigger("Slam");
                     monoBehavior.StartCoroutine(SlamMovement());
@@ -108,7 +115,7 @@ namespace Ability
             //replace with actually dealing damage
 
 
-            Collider[] enemiesDetected = Physics.OverlapSphere(player.transform.position, slamRadius, enemyLayerMask);
+            Collider[] enemiesDetected = Physics.OverlapSphere(player.transform.position, scalePerUnit * raycastDist, enemyLayerMask);
             foreach (var enemy in enemiesDetected)
             {
                 Debug.Log("Enemy in Range at: " + enemy.transform.position);
@@ -132,13 +139,15 @@ namespace Ability
 
             float angle = 20f;
 
-            drawLine.startColor = Color.yellow;
-            drawLine.endColor = Color.yellow;
+            Color newColor = new Vector4(1f, 1 - raycastDist/33f, 0f, .5f);
 
-            drawLine.startWidth = .5f;
-            drawLine.endWidth = .5f;
+            drawLine.startColor = newColor;
+            drawLine.endColor = newColor;
 
-            for (float j = 0; j < slamRadius; j = j + (slamRadius/80f))
+            drawLine.startWidth = raycastDist/10;
+            drawLine.endWidth = raycastDist/10;
+
+            for (float j = 0; j < scalePerUnit * raycastDist; j = j + (scalePerUnit * raycastDist / 80f))
             {
                 for (int i = 0; i < (51); i++)
                 {
