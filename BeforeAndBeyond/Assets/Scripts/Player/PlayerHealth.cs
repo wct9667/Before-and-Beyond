@@ -50,8 +50,6 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth += healthChange;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
-        if (currentHealth < 0) currentHealth = 0;
-        
-        SceneLoader.LoadScene(0); //load the main menu
+        if (currentHealth < 0) SceneLoader.LoadScene(0); //load the main menu
     }
 }
