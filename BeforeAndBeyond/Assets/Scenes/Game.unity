@@ -7513,6 +7513,26 @@ PrefabInstance:
       propertyPath: abilityUI
       value: 
       objectReference: {fileID: 1532457986}
+    - target: {fileID: 5121607800398510635, guid: 6a691f2f9bc6e614489c9c4605a157c6,
+        type: 3}
+      propertyPath: sciFiHealthBar
+      value: 
+      objectReference: {fileID: 218323069}
+    - target: {fileID: 5121607800398510635, guid: 6a691f2f9bc6e614489c9c4605a157c6,
+        type: 3}
+      propertyPath: knightHealthBar
+      value: 
+      objectReference: {fileID: 1626343953}
+    - target: {fileID: 5121607800398510635, guid: 6a691f2f9bc6e614489c9c4605a157c6,
+        type: 3}
+      propertyPath: sciFiHealthBarFill
+      value: 
+      objectReference: {fileID: 1407962413}
+    - target: {fileID: 5121607800398510635, guid: 6a691f2f9bc6e614489c9c4605a157c6,
+        type: 3}
+      propertyPath: knightHealthBarFill
+      value: 
+      objectReference: {fileID: 1577428875}
     - target: {fileID: 5657067705638875404, guid: 6a691f2f9bc6e614489c9c4605a157c6,
         type: 3}
       propertyPath: m_LocalPosition.x

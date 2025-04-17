@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5944445937473390919}
   - component: {fileID: 5067004827519693376}
   - component: {fileID: 2282408493274611984}
+  - component: {fileID: 5121607800398510635}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -119,6 +120,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &5121607800398510635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3754370641463295162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725e9d77c47ac0042a98cae76f4def4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knightHealthBar: {fileID: 0}
+  sciFiHealthBar: {fileID: 0}
+  maxHealth: 100
+  currentHealth: 0
+  knightHealthBarFill: {fileID: 0}
+  sciFiHealthBarFill: {fileID: 0}
 --- !u!1 &5052828538559030782
 GameObject:
   m_ObjectHideFlags: 0
