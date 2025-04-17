@@ -44,14 +44,7 @@ namespace Player
         [SerializeField] private float groundDistance;
         private int jumpCount;
 
-        [Header("Health")]
-        [SerializeField] private Slider knightHealthBar;
-        [SerializeField] private Slider sciFiHealthBar;
-        [SerializeField] private float maxHealth = 100;
-        [SerializeField] private float currentHealth;
-        [SerializeField] private Image knightHealthBarFill;
-        [SerializeField] private Image sciFiHealthBarFill;
-
+        
         private void Start()
         {
             playerState = GetComponent<PlayerState>();
@@ -59,23 +52,8 @@ namespace Player
             Cursor.visible = false;
             rb = GetComponent<Rigidbody>();
             rb.freezeRotation = true;
-            currentHealth = maxHealth;
-            knightHealthBar.maxValue = maxHealth;
-            sciFiHealthBar.maxValue = maxHealth;
-            knightHealthBar.value = currentHealth;
-            sciFiHealthBar.value = currentHealth;
         }
-
-        private void Update()
-        {
-            knightHealthBar.value = currentHealth;
-            sciFiHealthBar.value = currentHealth;
-            if (currentHealth <= 30)
-            {
-                knightHealthBarFill.color = Color.red;
-                sciFiHealthBarFill.color = Color.red;
-            }
-        }
+        
         private void FixedUpdate()
         {
             Vector2 moveVector = new Vector2(horizontalInput, verticalInput);
