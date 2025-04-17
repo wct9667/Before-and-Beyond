@@ -20,7 +20,6 @@ public class BillboardUIPrompt : MonoBehaviour
     public string DeviceName { get { return deviceName; } }
 
     
-    private Camera playerSplitScreenCamera;
 
     private Camera mainCam;
 
@@ -36,7 +35,6 @@ public class BillboardUIPrompt : MonoBehaviour
         uIPanel = GetComponent<Canvas>();
         uIPanel.enabled = false;
         mainCam = Camera.main;
-        playerSplitScreenCamera = transform.parent.parent.GetComponent<UnityEngine.InputSystem.PlayerInput>().camera;
 
         deviceName = transform.parent.parent.GetComponent<UnityEngine.InputSystem.PlayerInput>().devices[0].name;
         deviceManufacturer = transform.parent.parent.GetComponent<UnityEngine.InputSystem.PlayerInput>().devices[0].description.manufacturer;
@@ -44,7 +42,7 @@ public class BillboardUIPrompt : MonoBehaviour
 
     private void LateUpdate()
     {
-        Quaternion rotation = mainCam.enabled ? mainCam.transform.rotation : playerSplitScreenCamera.transform.rotation; 
+        Quaternion rotation = mainCam.transform.rotation;
         transform.LookAt(transform.position + rotation * Vector3.forward,
             rotation * Vector3.up);
     }

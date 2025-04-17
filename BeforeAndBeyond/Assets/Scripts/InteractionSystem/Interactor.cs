@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,12 +10,8 @@ public class Interactor : MonoBehaviour
     [SerializeField] private LayerMask interactableMask;
     [SerializeField] private BillboardUIPrompt interactionUI;
     
-    [SerializeField] private PlayerInput playerInput;
-
-    [SerializeField] private InteractionAllowed brainOrBrawn;
+    [SerializeField] private InputReader inputReader;
     
-
-    private InputAction interactAction;
     private IInteractable interactable;
 
     public BillboardUIPrompt InteractionUI { get { return interactionUI; } }
@@ -25,13 +22,21 @@ public class Interactor : MonoBehaviour
     //number of colliders found
     [Header("Editor Display : Do Not Edit")] [SerializeField] private int numFound;
 
-
-    private void Awake()
+    private void OnEnable()
     {
-        playerInput = GetComponent<PlayerInput>();
-        interactAction = playerInput.actions["Player/Interact"];
+        inputReader.Interact += OnInteract;
+    }
+
+    private void OnDisable()
+    {
+        inputReader.Interact -= OnInteract;
     }
     
+    private void OnInteract()
+    {
+        if(interactable != null) interactable.Interact(this);
+    }
+
     private void Update()
     {
         numFound = Physics.OverlapSphereNonAlloc(interactionPoint.position, interactionPointRadius, colliders,
@@ -44,10 +49,6 @@ public class Interactor : MonoBehaviour
             interactable = colliders[0].GetComponent<IInteractable>();
 
             if (interactable == null) return;
-
-            if (interactable.WhoCanInteract != InteractionAllowed.Both &&
-                interactable.WhoCanInteract != brainOrBrawn) return;
-            
             
             //if updated or not displayed
             if (!interactionUI.IsDisplayed || interactable.PromptUpdated)
@@ -55,10 +56,6 @@ public class Interactor : MonoBehaviour
                 interactionUI.SetUp(interactable.InteractionPrompt);
                 interactable.PromptUpdated = false; 
             }
-            
-            
-            if(interactAction.WasPressedThisFrame())
-                interactable.Interact(this);
         }
         else
         {
