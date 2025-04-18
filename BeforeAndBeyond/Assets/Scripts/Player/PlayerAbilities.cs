@@ -8,6 +8,19 @@ using UnityEngine.Events;
 namespace Player
 {
     
+    [System.Serializable]
+    public class AbilityData
+    {
+        public float Cooldown;
+        public bool IsActive;
+
+        public AbilityData(float cooldown, bool isActive)
+        {
+            Cooldown = cooldown;
+            IsActive = isActive;
+        }
+    }
+
     public enum AbilityType
     {
         Starting,
@@ -22,7 +35,7 @@ namespace Player
         [SerializeField] private InputReader inputReader;
 
         //cooldown tracker
-        private Dictionary<AbstractAbility, float> abilityCooldowns = new();
+        private Dictionary<AbstractAbility, AbilityData> abilityCooldowns = new();
 
         private PlayerState playerState;
         
@@ -34,6 +47,16 @@ namespace Player
         private void Awake()
         {
             playerState = GetComponent<PlayerState>();
+            
+            //Setup data for each ability
+            foreach (PlayerCharacterData characterData in playerState.Characters)
+            {
+                foreach (AbstractAbility ability in characterData.Abilities)
+                {
+                    abilityCooldowns[ability] = new AbilityData(0, false);
+                }
+            }
+            
             InitializeCoolDownsForCurrentCharacter();
         }
 
@@ -87,8 +110,8 @@ namespace Player
             List<AbstractAbility> keys = abilityCooldowns.Keys.ToList();
             foreach (AbstractAbility ability in keys)
             {
-                if (abilityCooldowns[ability] > 0f)
-                    abilityCooldowns[ability] -= Time.deltaTime;
+                if (abilityCooldowns[ability].Cooldown > 0f)
+                    abilityCooldowns[ability].Cooldown -= Time.deltaTime;
             }
         }
 
@@ -100,9 +123,9 @@ namespace Player
         {
             AbstractAbility ability = playerState.CurrentCharacter.AbilityAt(index);
             if (!ability) return;
-            if (abilityCooldowns[ability] > 0f) return;
+            if (abilityCooldowns[ability].Cooldown > 0f) return;
             ability.ActivateAbility();
-            abilityCooldowns[ability] = ability.AbilityCooldown;
+            abilityCooldowns[ability].Cooldown = ability.AbilityCooldown;
         }
 
         /// <summary>
@@ -110,11 +133,23 @@ namespace Player
         /// </summary>
         private void InitializeCoolDownsForCurrentCharacter()
         {
-            abilityCooldowns.Clear();
+            //loop through dictionary
+            foreach (KeyValuePair<AbstractAbility, AbilityData> kvp in abilityCooldowns)
+            {
+                //its in the character
+                if (playerState.CurrentCharacter.Abilities.Contains(kvp.Key)) kvp.Value.IsActive = true;
+                else kvp.Value.IsActive = false;
+            }
+            CheckForNewAbilities(true);
 
+        }
+
+        private void CheckForNewAbilities(bool active = false)
+        {
             foreach (AbstractAbility ability in playerState.CurrentCharacter.Abilities)
             {
-                abilityCooldowns[ability] = 0f;
+                if (!abilityCooldowns.ContainsKey(ability)) 
+                    abilityCooldowns[ability] = new AbilityData(ability.AbilityCooldown, active);
             }
         }
     }
