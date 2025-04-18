@@ -31,9 +31,6 @@ namespace Ability
         {
             startTime = Time.time;
 
-            Debug.Log("Grapple");
-            Debug.Log($"Activating Ability {name}");
-
             GrappleStart();
         }
 

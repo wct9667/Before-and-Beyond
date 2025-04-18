@@ -17,9 +17,6 @@ namespace Ability
 
         public override void ActivateAbility()
         {
-            Debug.Log("Sword");
-            Debug.Log($"Activating Ability {name}");
-
             SwordSlash();
         }
 

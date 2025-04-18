@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70c8a8476afb2845b47f05e4cb3e52e, type: 3}
   m_Name: ShieldAbilitySO
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: ef6e5ac931b41d043b485f54234d4daa, type: 3}
+  image: {fileID: 21300000, guid: 18b168e7affb1422282fbaabfe13caea, type: 3}
   abilityCooldown: 8
+  rechargeTimer: 4.5851593
+  maxCharges: 3
+  charges: 0
+  usesCharges: 1
   shieldRadius: 10
   shieldSphere: {fileID: 1146930503589297952, guid: 41528330ef27832408ecefb4f6018861,
     type: 3}

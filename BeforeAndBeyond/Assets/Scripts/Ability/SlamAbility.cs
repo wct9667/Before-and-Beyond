@@ -31,9 +31,6 @@ namespace Ability
 
         public override void ActivateAbility()
         {
-            Debug.Log("Slam");
-            Debug.Log($"Activating Ability {name}");
-
             SlamStart();
         }
 
@@ -58,7 +55,7 @@ namespace Ability
                 if (Physics.Raycast(player.transform.position, player.TransformDirection(Vector3.down), out hit, Mathf.Infinity, groundLayerMask))
                 {
 
-                    this.AbilityCooldown = nonRefundedCooldown;
+                    this.abilityCooldown = nonRefundedCooldown;
                     Debug.Log("-----------------------Did Slam: " + hit.point);
 
                     raycastDist = hit.distance;
@@ -69,14 +66,14 @@ namespace Ability
                 }
                 else
                 {
-                    this.AbilityCooldown = 0;
+                    this.abilityCooldown = 0;
 
                     Debug.Log("-----------------------Did not Slam");
                 }
             }
             else
             {
-                this.AbilityCooldown = 0;
+                this.abilityCooldown = 0;
 
                 Debug.Log("-----------------------Did not Slam");
             }

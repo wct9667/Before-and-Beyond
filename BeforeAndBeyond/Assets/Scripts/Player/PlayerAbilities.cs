@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ability;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -112,6 +113,16 @@ namespace Player
             {
                 if (abilityCooldowns[ability].Cooldown > 0f)
                     abilityCooldowns[ability].Cooldown -= Time.deltaTime;
+
+                if (ability.UsesCharges)
+                {
+                    ability.TickRecharge(Time.deltaTime);
+                    
+                    if(abilityCooldowns[ability].Cooldown <= 0 && ability.Charges < ability.MaxCharges)
+                    {
+                        abilityCooldowns[ability].Cooldown = ability.AbilityCooldown;
+                    }
+                }
             }
         }
 
@@ -122,9 +133,20 @@ namespace Player
         private void PerformAbility(int index)
         {
             AbstractAbility ability = playerState.CurrentCharacter.AbilityAt(index);
+            
             if (!ability) return;
-            if (abilityCooldowns[ability].Cooldown > 0f) return;
+            
+            //if the ability uses charges and doesnt have enough don't perform
+            if (!ability.UpdateAndCheckCharges()) return;
+            
+            //if the ability doesn't use charges, return if its cooldown is bad
+            if (!ability.UsesCharges && abilityCooldowns[ability].Cooldown > 0f) return;
+            
             ability.ActivateAbility();
+            
+            //do not update cooldown if charge 
+            if (ability.UsesCharges && ability.Charges != 0) return;
+            
             abilityCooldowns[ability].Cooldown = ability.AbilityCooldown;
         }
 

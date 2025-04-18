@@ -20,10 +20,6 @@ namespace Ability
 
         public override void ActivateAbility()
         {
-
-            Debug.Log("Shield");
-            Debug.Log($"Activating Ability {name}");
-
             ShieldStart();
         }
 
@@ -42,10 +38,10 @@ namespace Ability
 
         public IEnumerator ShieldSphereSpawn()
         {
-            Instantiate(shieldSphere, player);
+            GameObject obj = Instantiate(shieldSphere, player);
 
 
-            GameObject.Destroy(GameObject.FindGameObjectWithTag("Shield"), 1f);
+            Destroy(obj, 1f);
 
             yield return new WaitForSeconds(.1f);
 
