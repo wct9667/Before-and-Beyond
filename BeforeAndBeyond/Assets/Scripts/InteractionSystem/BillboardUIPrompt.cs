@@ -12,8 +12,6 @@ public class BillboardUIPrompt : MonoBehaviour
     [SerializeField] private Image buttonPrompt;
     [SerializeField] private Sprite[] interactButtons;
 
-    private InputDevice device;
-
     [SerializeField] private InputReader inputReader;
     
     const int PlayStationPrompt = 0;
@@ -36,7 +34,6 @@ public class BillboardUIPrompt : MonoBehaviour
     {
         uIPanel = GetComponent<Canvas>();
         uIPanel.enabled = false;
-        device = inputReader.DeviceType;
     }
 
     /// <summary>
@@ -54,11 +51,11 @@ public class BillboardUIPrompt : MonoBehaviour
         else
         {
             buttonPrompt.enabled = true;
-            if (device is Gamepad)
+            if (inputReader.DeviceType is Gamepad)
             {
                 buttonPrompt.sprite = interactButtons[XboxPrompt];
             }
-            else if (device is Keyboard || device is Mouse)
+            else if (inputReader.DeviceType is Keyboard || inputReader.DeviceType is Mouse)
             {
                 buttonPrompt.sprite = interactButtons[KeyboardPrompt];
             }
