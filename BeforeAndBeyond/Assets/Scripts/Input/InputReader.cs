@@ -96,7 +96,7 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     public void OnInteract(InputAction.CallbackContext context)
     {
         device = context.control.device;
-        if(context.phase == InputActionPhase.Performed)
+        if(context.phase == InputActionPhase.Started)
             Interact.Invoke();
     }
 
