@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Ability;
+using Player;
 using UnityEngine;
 
 public class UI_Abilities : MonoBehaviour
@@ -9,7 +10,7 @@ public class UI_Abilities : MonoBehaviour
     
     private List<UI_Ability> icons = new List<UI_Ability>();
     
-    private Dictionary<AbstractAbility, float> coolDowns; //reference to cooldowns
+    private Dictionary<AbstractAbility, AbilityData> coolDowns; //reference to cooldowns
 
 
     private EventBinding<AbilitiesSwapped> abilitiesSwappedEventBinding;
@@ -33,6 +34,7 @@ public class UI_Abilities : MonoBehaviour
 
     private void ResetAbilities()
     {
+        //remove old ones
         if (icons.Count != 0)
         {
             for (int i = icons.Count - 1; i >= 0; i--)
@@ -43,7 +45,7 @@ public class UI_Abilities : MonoBehaviour
         
         icons.Clear();
         
-        foreach (KeyValuePair<AbstractAbility, float> kvp in coolDowns)
+        foreach (KeyValuePair<AbstractAbility, AbilityData> kvp in coolDowns)
         {
             UI_Ability ability = Instantiate(abilityPrefab, transform);
             icons.Add(ability);
@@ -54,11 +56,12 @@ public class UI_Abilities : MonoBehaviour
 
     private void UpdateAbilities()
     {
-        int index = 0;
-        foreach (KeyValuePair<AbstractAbility, float> kvp in coolDowns)
+        int index = coolDowns.Count -1;
+        foreach (KeyValuePair<AbstractAbility, AbilityData> kvp in coolDowns)
         {
-           icons[index].Fill.fillAmount = (kvp.Value)/ kvp.Key.AbilityCooldown;
-           index++;
+            if (!kvp.Value.IsActive) continue;
+           icons[index].Fill.fillAmount = (kvp.Value.Cooldown)/ kvp.Key.AbilityCooldown;
+           index--;
         }
     }
 

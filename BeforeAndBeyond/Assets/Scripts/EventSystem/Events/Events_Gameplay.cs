@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Ability;
 using JetBrains.Annotations;
+using Player;
 
 /// <summary>
 /// Pause the game
@@ -31,7 +32,7 @@ public struct CharacterSwap : IEvent
 /// </summary>
 public struct AbilitiesSwapped : IEvent
 {
-    [CanBeNull] public Dictionary<AbstractAbility, float> cooldowns;
+    [CanBeNull] public Dictionary<AbstractAbility, AbilityData> cooldowns;
 }
 
 public struct HelmetSettingChange : IEvent{}
