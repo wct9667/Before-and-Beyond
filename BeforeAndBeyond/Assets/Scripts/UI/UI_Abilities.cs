@@ -47,6 +47,7 @@ public class UI_Abilities : MonoBehaviour
         
         foreach (KeyValuePair<AbstractAbility, AbilityData> kvp in coolDowns)
         {
+            if (!kvp.Value.IsActive) continue;
             UI_Ability ability = Instantiate(abilityPrefab, transform);
             icons.Add(ability);
             ability.Icon.sprite = kvp.Key.Image;
@@ -56,12 +57,12 @@ public class UI_Abilities : MonoBehaviour
 
     private void UpdateAbilities()
     {
-        int index = coolDowns.Count -1;
+        int index = 0;
         foreach (KeyValuePair<AbstractAbility, AbilityData> kvp in coolDowns)
         {
             if (!kvp.Value.IsActive) continue;
            icons[index].Fill.fillAmount = (kvp.Value.Cooldown)/ kvp.Key.AbilityCooldown;
-           index--;
+           index++;
         }
     }
 

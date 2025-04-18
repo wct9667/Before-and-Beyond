@@ -53,7 +53,7 @@ namespace Player
             {
                 foreach (AbstractAbility ability in characterData.Abilities)
                 {
-                    abilityCooldowns[ability] = new AbilityData(ability.AbilityCooldown, false);
+                    abilityCooldowns[ability] = new AbilityData(0, false);
                 }
             }
             
