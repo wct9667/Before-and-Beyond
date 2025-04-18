@@ -156,21 +156,24 @@ namespace Player
 
 
 
-        public void Grapple(float startTime, RaycastHit hit)
+        public void Grapple(float startTime, RaycastHit hit, float grappleSpeed)
         {
-            StartCoroutine(GrappleMovement(startTime, hit));
+            StartCoroutine(GrappleMovement(startTime, hit, grappleSpeed));
         }
-        private IEnumerator GrappleMovement(float startTime, RaycastHit hit)
+        private IEnumerator GrappleMovement(float startTime, RaycastHit hit, float grappleSpeed)
         {
+            rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
+
             while (Vector3.Distance(transform.position, hit.point) > 0.5f)
             {
-                transform.position = Vector3.Lerp(transform.position, hit.point, (Time.time - startTime));
+                transform.position = Vector3.Lerp(transform.position, hit.point, (Time.time - startTime) * grappleSpeed);
 
-                rb.AddForce(0, 0.2f, 0, ForceMode.Impulse);
 
                 yield return null;
 
             }
+            rb.AddForce(0, 10f, 0, ForceMode.Impulse);
+
             yield return new WaitForSeconds(2f);
         }
     }

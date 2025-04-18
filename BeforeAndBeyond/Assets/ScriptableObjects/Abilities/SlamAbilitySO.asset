@@ -9,14 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1fa39e9edbc03f45af52febe8835a54, type: 3}
-  m_Name: GrappleHookAbilitySO
+  m_Script: {fileID: 11500000, guid: 9af92d86d4719ff489c9cd1214b00277, type: 3}
+  m_Name: SlamAbilitySO
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: 18b168e7affb1422282fbaabfe13caea, type: 3}
-  abilityCooldown: 4
-  maxDist: 45
-  grappleLayerMask:
+  image: {fileID: 21300000, guid: ef6e5ac931b41d043b485f54234d4daa, type: 3}
+  abilityCooldown: 6
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  nonRefundedCooldown: 4
-  grappleSpeed: 0.25
+  nonRefundedCooldown: 6
+  scalePerUnit: 1

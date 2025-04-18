@@ -20,3 +20,4 @@ MonoBehaviour:
   canDash: 1
   abilities:
   - {fileID: 11400000, guid: 5fcd7f6e2d45f8d4f8187f5d9596c839, type: 2}
+  - {fileID: 11400000, guid: 30969a981d0bc54459f28a10630fdfe7, type: 2}
