@@ -145,7 +145,7 @@ namespace Player
             ability.ActivateAbility();
             
             //do not update cooldown if charge 
-            if (ability.UsesCharges && ability.Charges != 0) return;
+            if (ability.UsesCharges) return;
             
             abilityCooldowns[ability].Cooldown = ability.AbilityCooldown;
         }

@@ -50,6 +50,7 @@ namespace Ability
 
         private void GrappleStart()
         {
+            playerController.ResetJumpCount();
             if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, maxDist, grappleLayerMask))
             {
                 this.AbilityCooldown = nonRefundedCooldown;

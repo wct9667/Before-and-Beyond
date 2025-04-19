@@ -43,6 +43,7 @@ namespace Player
         [Header("Jump")] 
         [SerializeField] private float groundDistance;
         private int jumpCount;
+        
 
         
         private void Start()
@@ -153,6 +154,9 @@ namespace Player
             rb.AddForce(transform.up * playerState.CurrentCharacter.jumpForce, ForceMode.Impulse);
             jumpCount++;
         }
+
+        public void ResetJumpCount() => jumpCount = 0;
+        
 
 
 
