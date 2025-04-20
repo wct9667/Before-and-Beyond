@@ -47,7 +47,7 @@ namespace Ability
 
         }
 
-        public void ShieldHealthSap()
+        public void ShieldHealthSap(float amtTaken)
         {
             //fill out once we have damaging enemies and player health
         }

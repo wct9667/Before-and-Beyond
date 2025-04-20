@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9af92d86d4719ff489c9cd1214b00277, type: 3}
   m_Name: SlamAbilitySO
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: ef6e5ac931b41d043b485f54234d4daa, type: 3}
+  image: {fileID: 21300000, guid: d6081babbbd154a78b79d1e213cbae8a, type: 3}
   abilityCooldown: 6
+  rechargeTimer: 0
+  maxCharges: 0
+  charges: 0
+  usesCharges: 0
+  ChargeUpdated:
+    m_PersistentCalls:
+      m_Calls: []
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
