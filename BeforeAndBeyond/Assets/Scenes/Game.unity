@@ -17331,6 +17331,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9020250123077601345, guid: 6a691f2f9bc6e614489c9c4605a157c6,
         type: 3}
+      propertyPath: groundDistance
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020250123077601345, guid: 6a691f2f9bc6e614489c9c4605a157c6,
+        type: 3}
       propertyPath: sciFiHealthBar
       value: 
       objectReference: {fileID: 218323069}
