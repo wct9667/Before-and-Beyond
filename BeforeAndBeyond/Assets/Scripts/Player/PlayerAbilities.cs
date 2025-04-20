@@ -176,7 +176,7 @@ namespace Player
             foreach (AbstractAbility ability in playerState.CurrentCharacter.Abilities)
             {
                 if (!abilityCooldowns.ContainsKey(ability)) 
-                    abilityCooldowns[ability] = new AbilityData(ability.AbilityCooldown, active);
+                    abilityCooldowns[ability] = new AbilityData(0, active);
             }
         }
     }

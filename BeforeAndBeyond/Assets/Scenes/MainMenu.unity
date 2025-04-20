@@ -1538,6 +1538,7 @@ MonoBehaviour:
   buttonQuit: {fileID: 6116926283643709211}
   buttonSettingsBack: {fileID: 1764516993}
   startSceneIndex: 1
+  inputReader: {fileID: 11400000, guid: 1988d8f22756e6d448ac20da11c95867, type: 2}
 --- !u!224 &7451581417529095531
 RectTransform:
   m_ObjectHideFlags: 0

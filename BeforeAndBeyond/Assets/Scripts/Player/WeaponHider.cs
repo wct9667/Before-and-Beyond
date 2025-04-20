@@ -1,31 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class WeaponHider : MonoBehaviour
 {
-    private EventBinding<CharacterSwap> characterSwapEventBinding;
+    private EventBinding<CharacterSwap> characterSwapEventBinding; 
+    [SerializeField] private CharacterType shellIntendedCharacter;
+    private CharacterType currentCharacter; 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        if(gameObject.name == "SciFiWeaponShell")
-        {
-            foreach (Transform child in transform)
-            {
-                if (child.gameObject.TryGetComponent<Canvas>(out Canvas canvas))
-                {
-                    canvas.enabled = false;
-                    return;
-                }
-                child.gameObject.SetActive(false);
-            }
-        }
-    }
 
     private void OnEnable()
     {
-        characterSwapEventBinding = new EventBinding<CharacterSwap>(SetWeaponsActive);
+        characterSwapEventBinding = new EventBinding<CharacterSwap>((e) =>SetWeaponsActive(e.CharacterType));
         EventBus<CharacterSwap>.Register(characterSwapEventBinding);
     }
 
@@ -34,17 +21,33 @@ public class WeaponHider : MonoBehaviour
         EventBus<CharacterSwap>.Deregister(characterSwapEventBinding);
     }
 
-    private void SetWeaponsActive()
+    private void SetWeaponsActive(CharacterType type)
     {
-        foreach (Transform child in transform)
+        if (type != shellIntendedCharacter)
         {
-            if (child.gameObject.TryGetComponent<Canvas>(out Canvas canvas))
+            foreach (Transform child in transform)
             {
-                canvas.enabled = !canvas.enabled;
-                return;
-            }
+                if (child.gameObject.TryGetComponent<Canvas>(out Canvas canvas))
+                {
+                    canvas.enabled = false;
+                    return;
+                }
             
-            child.gameObject.SetActive(!child.gameObject.activeSelf);
+                child.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.gameObject.TryGetComponent<Canvas>(out Canvas canvas))
+                {
+                    canvas.enabled = true;
+                    return;
+                }
+            
+                child.gameObject.SetActive(true);
+            }
         }
     }
 }

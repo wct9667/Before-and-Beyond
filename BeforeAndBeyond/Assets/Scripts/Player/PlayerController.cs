@@ -62,7 +62,7 @@ namespace Player
             
             if(isGamepad) Look(currentLookInput);
 
-            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + groundDistance, whatIsGround);
+            grounded = Physics.SphereCast(transform.position, 0.5f, -transform.up, out RaycastHit hit, groundDistance, whatIsGround);
             if (grounded) jumpCount = 0;
             
 

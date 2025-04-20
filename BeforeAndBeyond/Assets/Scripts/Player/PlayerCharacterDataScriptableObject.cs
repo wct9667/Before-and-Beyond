@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Ability;
 using UnityEngine;
 
 namespace Player
@@ -25,6 +27,7 @@ namespace Player
         public bool canDash;
 
         [Header("Abilities")] 
+        [SerializeField] private List<Ability.AbstractAbility> startingAbilities;
         [SerializeField] private List<Ability.AbstractAbility> abilities;
         public List<Ability.AbstractAbility> Abilities => abilities;
         public Ability.AbstractAbility AbilityAt(int index)
@@ -32,6 +35,12 @@ namespace Player
             if (abilities != null && abilities.Count > index) return abilities[index];
             Debug.LogWarning("Requested ability does not exist, abilities list count exceeded.");
             return null;
+        }
+
+        private void OnEnable()
+        {
+            abilities.Clear();
+            abilities = new List<AbstractAbility>(startingAbilities);
         }
     }
 }
