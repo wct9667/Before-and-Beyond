@@ -36,10 +36,15 @@ public struct AbilitiesSwapped : IEvent
 
 public struct HelmetSettingChange : IEvent{}
 
-public struct ChangePlayerHealth : IEvent
+public struct IncreasePlayerHealth : IEvent
 {
     public float healthChange;
     [CanBeNull] public float maxHealth;
+}
+
+public struct DecreasePlayerHealth : IEvent
+{
+    public float healthChange;
 }
 
 public struct ChangePlayerHealthUI : IEvent

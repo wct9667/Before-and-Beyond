@@ -1,31 +1,48 @@
+using Player;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [Header("Character ")]
+    [SerializeField] private PlayerCharacterData playerCharacterData;
+
     [Header("Health")]
     [SerializeField] private float maxHealth = 100;
     private float currentHealth;
     
     //Event
-    private EventBinding<ChangePlayerHealth> playerHealthChangeEventBinding;
+    private EventBinding<IncreasePlayerHealth> playerIncreaseHealthEventBinding;
+    private EventBinding<DecreasePlayerHealth> playerDecreaseHealthEventBinding;
 
     private void OnEnable()
     {
-        playerHealthChangeEventBinding = new EventBinding<ChangePlayerHealth>((e) =>
+        playerIncreaseHealthEventBinding = new EventBinding<IncreasePlayerHealth>((e) =>
         {
-            ChangeHealth(e.healthChange);
+            IncreaseHealth(e.healthChange);
             EventBus<ChangePlayerHealthUI>.Raise(new ChangePlayerHealthUI()
             {
                 playerMaxHealth = maxHealth,
                 playerHealth = currentHealth
             });
         });
-        EventBus<ChangePlayerHealth>.Register(playerHealthChangeEventBinding);
+        EventBus<IncreasePlayerHealth>.Register(playerIncreaseHealthEventBinding);
+
+        playerDecreaseHealthEventBinding = new EventBinding<DecreasePlayerHealth>((e) =>
+        {
+            DecreaseHeatlh(e.healthChange);
+            EventBus<ChangePlayerHealthUI>.Raise(new ChangePlayerHealthUI()
+            {
+                playerMaxHealth = maxHealth,
+                playerHealth = currentHealth
+            });
+        });
+        EventBus<DecreasePlayerHealth>.Register(playerDecreaseHealthEventBinding);
     }
 
     private void OnDisable()
     {
-        EventBus<ChangePlayerHealth>.Deregister(playerHealthChangeEventBinding);
+        EventBus<IncreasePlayerHealth>.Deregister(playerIncreaseHealthEventBinding);
+        EventBus<DecreasePlayerHealth>.Deregister(playerDecreaseHealthEventBinding);
     }
 
     private void Start()
@@ -39,12 +56,22 @@ public class PlayerHealth : MonoBehaviour
     }
     
     /// <summary>
-    /// Change health
+    /// Increase health
     /// </summary>
     /// <param name="healthChange"></param>
-    private void ChangeHealth(float healthChange)
+    private void IncreaseHealth(float healthChange)
     {
         currentHealth += healthChange;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+    }
+
+    /// <summary>
+    /// Decrease health
+    /// </summary>
+    /// <param name="healthChange"></param>
+    private void DecreaseHeatlh(float healthChange)
+    {
+        currentHealth -= (healthChange * playerCharacterData.percentDamageReduction) / 100;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         if (currentHealth < 0) SceneLoader.LoadScene(0); //load the main menu
     }
