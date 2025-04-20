@@ -6,5 +6,5 @@ public interface IInteractable
     //flag for UI prompt change
     bool PromptUpdated { get; set; } 
 
-    public bool Interact(Interactor interactor);
+    public void Interact(Interactor interactor);
 }

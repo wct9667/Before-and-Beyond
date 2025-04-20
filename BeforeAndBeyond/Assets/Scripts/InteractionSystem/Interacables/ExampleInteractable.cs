@@ -9,9 +9,8 @@ public class ExampleInteractable : MonoBehaviour, IInteractable
     //only use if prompt is updated
     public bool PromptUpdated { get; set; } 
     
-    public bool Interact(Interactor interactor)
+    public void  Interact(Interactor interactor)
     {
        Debug.Log("Event Triggered");
-       return true;
     }
 }

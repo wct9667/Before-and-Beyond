@@ -18,6 +18,6 @@ MonoBehaviour:
   jumpForce: 5
   canDoubleJump: 0
   canDash: 0
-  abilities:
+  startingAbilities:
   - {fileID: 11400000, guid: 951d888a636432e499127e2048afba05, type: 2}
-  - {fileID: 11400000, guid: d38a635e777a0554dacca2a1920bc7ee, type: 2}
+  abilities: []
