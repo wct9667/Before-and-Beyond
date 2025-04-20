@@ -20,12 +20,18 @@ namespace Player
         [Header("Passive Modifiers")]
         [Range(0,100)]  public float percentDamageReduction;
         [Range(0,1000)] public float percentSpeedIncrease;
+        public float jumpForce;
         public bool canDoubleJump;
         public bool canDash;
 
         [Header("Abilities")] 
         [SerializeField] private List<Ability.AbstractAbility> abilities;
         public List<Ability.AbstractAbility> Abilities => abilities;
-        public Ability.AbstractAbility StartingAbility => abilities[0];
+        public Ability.AbstractAbility AbilityAt(int index)
+        {
+            if (abilities != null && abilities.Count > index) return abilities[index];
+            Debug.LogWarning("Requested ability does not exist, abilities list count exceeded.");
+            return null;
+        }
     }
 }

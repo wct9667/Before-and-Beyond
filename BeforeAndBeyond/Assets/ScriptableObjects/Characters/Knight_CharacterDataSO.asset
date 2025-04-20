@@ -15,7 +15,9 @@ MonoBehaviour:
   characterType: 0
   percentDamageReduction: 50
   percentSpeedIncrease: 0
+  jumpForce: 5
   canDoubleJump: 0
   canDash: 0
   abilities:
   - {fileID: 11400000, guid: 951d888a636432e499127e2048afba05, type: 2}
+  - {fileID: 11400000, guid: d38a635e777a0554dacca2a1920bc7ee, type: 2}

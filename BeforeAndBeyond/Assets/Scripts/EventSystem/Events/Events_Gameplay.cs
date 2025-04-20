@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Ability;
 using JetBrains.Annotations;
+using Player;
 
 /// <summary>
 /// Pause the game
@@ -26,10 +27,29 @@ public struct CharacterSwap : IEvent
 }
 
 /// <summary>
-/// Unlike the character swap, this event is fired after the chatacter has been swapped.
+/// Unlike the character swap, this event is fired after the character has been swapped.
 /// Think order of operations
 /// </summary>
 public struct AbilitiesSwapped : IEvent
 {
-    [CanBeNull] public Dictionary<AbstractAbility, float> cooldowns;
+    [CanBeNull] public Dictionary<AbstractAbility, AbilityData> cooldowns;
+}
+
+public struct HelmetSettingChange : IEvent{}
+
+public struct IncreasePlayerHealth : IEvent
+{
+    public float healthChange;
+    [CanBeNull] public float maxHealth;
+}
+
+public struct DecreasePlayerHealth : IEvent
+{
+    public float healthChange;
+}
+
+public struct ChangePlayerHealthUI : IEvent
+{
+    public float playerHealth;
+    public float playerMaxHealth;
 }

@@ -1,11 +1,15 @@
-using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace Player
 {
+    [RequireComponent(typeof(PlayerState))]
     public class PlayerController : MonoBehaviour
     {
+        private PlayerState playerState;
+        
         [Header("Input")]
         [SerializeField] private InputReader inputReader;
 
@@ -13,80 +17,74 @@ namespace Player
         [SerializeField] private Settings settings;
 
         [Header("Look")]
-        public Camera mainCamera;
-        
-        public Transform orientation;
-
+        [SerializeField] Camera mainCamera;
+        [SerializeField] Transform orientation;
+        private bool isGamepad = false;
+        private Vector2 currentLookInput;
         float rotationX;
         float rotationY;
 
         [Header("Ground Check")]
-        public float playerHeight;
-        public LayerMask whatIsGround;
-        public bool grounded;
+        [SerializeField] private float playerHeight;
+        [SerializeField] private LayerMask whatIsGround;
+        [SerializeField] private bool grounded;
 
         [Header("Movement")]
-        public float moveSpeed;
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private float maxSpeed = 100;
+        [SerializeField] private float airMovementScalar = 1f;
+        
         float horizontalInput;
         float verticalInput;
         Vector3 moveDirection;
         Rigidbody rb;
-        public float groundDrag;
-
-        [Header("Jump")]
-        public float jumpForce;
-        public float jumpCooldown;
-        public float airMultiplier;
-        public bool readyToJump;
 
 
-        private bool isControllerLook = false;
-        private Vector2 currentLookInput;
+        [Header("Jump")] 
+        [SerializeField] private float groundDistance;
+        private int jumpCount;
+        
+
+        
         private void Start()
         {
+            playerState = GetComponent<PlayerState>();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             rb = GetComponent<Rigidbody>();
             rb.freezeRotation = true;
         }
-
+        
         private void FixedUpdate()
         {
             Vector2 moveVector = new Vector2(horizontalInput, verticalInput);
             Move(moveVector);
             
-            ApplyLook(currentLookInput, isControllerLook);
+            if(isGamepad) Look(currentLookInput);
 
-            //ground check
-            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+            grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + groundDistance, whatIsGround);
+            if (grounded) jumpCount = 0;
             
 
-            if (grounded)
+
+            if (rb.velocity.magnitude > maxSpeed)
             {
-                rb.drag = groundDrag;
-                readyToJump = true;
-            }
-            else
-            {
-                rb.drag = 0;
-                readyToJump = false;
+                rb.velocity = rb.velocity.normalized * maxSpeed;
             }
         }
 
         private void OnEnable()
         {
-            //setup input maps
             inputReader.Move += OnMove;
-            inputReader.Look += Look;
+            inputReader.Look += OnLook;
             inputReader.Jump += Jump;
         }
         
         
         private void OnDisable()
         {
-            //setup input maps
             inputReader.Move -= OnMove;
-            inputReader.Look -= Look;
+            inputReader.Look -= OnLook;
             inputReader.Jump -= Jump;
         }
 
@@ -101,65 +99,86 @@ namespace Player
             horizontalInput = moveVector.x;
             verticalInput = moveVector.y;
 
-            moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-            rb.AddForce(moveDirection.normalized * moveSpeed * 2f, ForceMode.Force);
+            moveDirection = (orientation.forward * verticalInput + orientation.right * horizontalInput).normalized;
 
-            if (grounded)
-            {
-                rb.AddForce(moveDirection.normalized * moveSpeed * groundDrag, ForceMode.Force);
-            }
-            else
-            {
-                rb.AddForce(moveDirection.normalized * moveSpeed * airMultiplier, ForceMode.Force);
-            }
-            Debug.Log($"Move x:{moveVector.x}, y:{moveVector.y} ");
+            float percentIncrease = playerState.CurrentCharacter.percentSpeedIncrease;
+            float speedMultiplier = 1f + (percentIncrease / 100f);
+
+            float airDrag = grounded ? 1 : airMovementScalar;
+            Vector3 targetVelocity = moveDirection * (moveSpeed * speedMultiplier * airDrag);
+            
+            Vector3 currentVelocity = rb.velocity;
+            Vector3 velocityChange = targetVelocity - new Vector3(currentVelocity.x, 0, currentVelocity.z);
+            
+            rb.AddForce(new Vector3(velocityChange.x, 0, velocityChange.z), ForceMode.VelocityChange);
         }
-        
-        private void Look(Vector2 lookVector, bool isController)
+
+        private void OnLook(Vector2 lookVector, bool isGamepad)
         {
             currentLookInput = lookVector;
-            isControllerLook = isController;
+            this.isGamepad = isGamepad;
+            if (!isGamepad) Look(currentLookInput);
         }
 
-        private void ApplyLook(Vector2 lookVector, bool isController)
+        private void Look(Vector2 lookVector)
         {
-            float mouseX;
-            float mouseY;
-
-            if (isController)
-            {
-                mouseX = lookVector.x * settings.sensX * Time.deltaTime;
-                mouseY = lookVector.y * settings.sensY * Time.deltaTime;
-            }
-            else
-            {
-                mouseX = lookVector.x * settings.sensX * Time.deltaTime;
-                mouseY = lookVector.y * settings.sensY * Time.deltaTime;
-            }
-
+            float mouseX = lookVector.x * settings.sensX * Time.deltaTime;
+            float mouseY = lookVector.y * settings.sensY * Time.deltaTime;
+           
             rotationY += mouseX;
             rotationX -= mouseY;
+
+            rotationX = Mathf.Clamp(rotationX, -90f, 90f );
             
             mainCamera.transform.rotation = Quaternion.Euler(rotationX, rotationY, 0);
             orientation.rotation = Quaternion.Euler(0, rotationY, 0);
         }
-
+        
+        /// <summary>
+        /// Jumps up, cancels current y
+        /// Only jumps if double jump available or if grounded
+        /// </summary>
         private void Jump()
         {
-            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // freeze y velocity
-
-            if (grounded && readyToJump)
+            if (!grounded && !playerState.CurrentCharacter.canDoubleJump) return;
+            
+            switch (jumpCount)
             {
-                readyToJump = false;
-                rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                Invoke(nameof(ResetJump), jumpCooldown);
+                case 0: 
+                    break;
+                default: 
+                    return;
             }
-            Debug.Log("Jump");
+
+            rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
+            rb.AddForce(transform.up * playerState.CurrentCharacter.jumpForce, ForceMode.Impulse);
+            jumpCount++;
         }
 
-        private void ResetJump()
+        public void ResetJumpCount() => jumpCount = 0;
+        
+
+
+
+        public void Grapple(float startTime, RaycastHit hit, float grappleSpeed)
         {
-            readyToJump = true;
+            StartCoroutine(GrappleMovement(startTime, hit, grappleSpeed));
+        }
+        private IEnumerator GrappleMovement(float startTime, RaycastHit hit, float grappleSpeed)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
+
+            while (Vector3.Distance(transform.position, hit.point) > 0.5f)
+            {
+                transform.position = Vector3.Lerp(transform.position, hit.point, (Time.time - startTime) * grappleSpeed);
+
+
+                yield return null;
+
+            }
+            rb.AddForce(0, 10f, 0, ForceMode.Impulse);
+
+            yield return new WaitForSeconds(2f);
         }
     }
 }

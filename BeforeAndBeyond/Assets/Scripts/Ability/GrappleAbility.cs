@@ -1,28 +1,35 @@
 using UnityEngine;
 using System.Collections;
+using Player;
+
 namespace Ability
 {
     [CreateAssetMenu(menuName = "Player/Abilities/GrappleHookAbility", fileName = "GrappleHookAbilitySO")]
     public class GrappleHookAbility : AbstractAbility 
     {
+        [Header("Ability Attributes")]
+        [SerializeField] private float maxDist = 45;
+        [SerializeField] private LayerMask grappleLayerMask;
+        [SerializeField] private float nonRefundedCooldown = 2;
+        [SerializeField] private float grappleSpeed = 0.5f;
+
         private RaycastHit hit;
-        private float maxDist;
-        private LayerMask layerMask;
 
         private GameObject playerGameObject;
         private Transform camera, player;
         private Rigidbody playerRB;
 
+        private Animator anim;
+        private GameObject gun;
+        private Transform gunTip;
+
         private float startTime;
 
-        private MonoBehaviour monoBehavior;
+        private PlayerController playerController;
 
         public override void ActivateAbility()
         {
             startTime = Time.time;
-
-            Debug.Log("Grapple");
-            Debug.Log($"Activating Ability {name}");
 
             GrappleStart();
         }
@@ -31,44 +38,38 @@ namespace Ability
         {
             camera = Camera.main.transform;
             playerGameObject = GameObject.FindGameObjectWithTag("Player");
-            playerRB = playerGameObject.GetComponent<Rigidbody>();
             player = playerGameObject.transform;
-            layerMask = LayerMask.GetMask("whatIsGround");
-            maxDist = 45f;
+            playerController = playerGameObject.GetComponent<PlayerController>();
+
+            gun = GameObject.FindGameObjectWithTag("Grapple");
+            anim = gun.GetComponent<Animator>();
+
+            gunTip = gun.transform.Find("GunTip");
+
         }
 
         private void GrappleStart()
         {
-            monoBehavior = FindObjectOfType<MonoBehaviour>();
-            if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, maxDist, layerMask))
+            playerController.ResetJumpCount();
+            if (Physics.Raycast(camera.transform.position, camera.TransformDirection(Vector3.forward), out hit, maxDist, grappleLayerMask))
             {
+                this.AbilityCooldown = nonRefundedCooldown;
+                anim.SetTrigger("Shoot");
+
                 Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
                 Debug.Log("-----------------------Did Hit: " + hit.point);
 
                 DrawGrapple();
-                monoBehavior.StartCoroutine(GrappleMovement());
+                playerController.Grapple(startTime, hit, grappleSpeed);
             }
             else
             {
+                this.AbilityCooldown = 0;
+
                 Debug.DrawRay(camera.position, camera.TransformDirection(Vector3.forward) * 1000, Color.white);
                 Debug.Log("-----------------------Did not Hit");
             }
 
-        }
-         
-        private IEnumerator GrappleMovement()
-        {
-
-            while (Vector3.Distance(player.transform.position, hit.point) > 0.5f)
-            {
-                player.transform.position = Vector3.Lerp(player.transform.position, hit.point, (Time.time - startTime));
-
-                playerRB.AddForce(0, 0.2f, 0, ForceMode.Impulse);
-
-                yield return null;
-
-            }
-            yield return new WaitForSeconds(2f);
         }
 
         private void DrawGrapple()
@@ -85,7 +86,7 @@ namespace Ability
             drawLine.startWidth = .01f;
             drawLine.endWidth = .1f;
 
-            drawLine.SetPosition(0, player.transform.position);
+            drawLine.SetPosition(0, gunTip.transform.position);
             drawLine.SetPosition(1, hit.point);
 
             GameObject.Destroy(grappleLine, .25f);

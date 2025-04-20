@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Sensitivity : MonoBehaviour
+public class UI_Settings: MonoBehaviour
 {
     [Header("Sensitivity Settings")]
     [SerializeField] private Slider sensitivityXSlider;
@@ -13,8 +10,16 @@ public class UI_Sensitivity : MonoBehaviour
     [SerializeField] private TMP_InputField sensitivityXInput;
     [SerializeField] private TMP_InputField sensitivityYInput;
 
+    [Header("Additional Settings")] 
+    [SerializeField] private Toggle helmetToggle;
+
+    [Header("Reset")] 
+    [SerializeField] private Button resetButton;
+    
+
 
     [SerializeField] private Settings settings;
+    [SerializeField] private Settings defaultSettings;
 
     private void OnEnable()
     {
@@ -22,6 +27,12 @@ public class UI_Sensitivity : MonoBehaviour
         sensitivityYSlider.onValueChanged.AddListener(OnSensitivityYSliderChanged);
         sensitivityXInput.onEndEdit.AddListener(OnSensitivityXInputChanged);
         sensitivityYInput.onEndEdit.AddListener(OnSensitivityYInputChanged);
+        helmetToggle.onValueChanged.AddListener(OnHelmetToggleChange);
+        resetButton.onClick.AddListener(() =>
+        {
+            settings.SetValues(defaultSettings);
+            SetValues();
+        });
     }
 
     private void OnDisable()
@@ -30,9 +41,16 @@ public class UI_Sensitivity : MonoBehaviour
         sensitivityYSlider.onValueChanged.RemoveListener(OnSensitivityYSliderChanged);
         sensitivityXInput.onEndEdit.RemoveListener(OnSensitivityXInputChanged);
         sensitivityYInput.onEndEdit.RemoveListener(OnSensitivityYInputChanged);
+        helmetToggle.onValueChanged.RemoveListener(OnHelmetToggleChange);
+        resetButton.onClick.RemoveAllListeners();
     }
 
     private void Start()
+    {
+       SetValues();
+    }
+
+    private void SetValues()
     {
         // Init sliders as 0�1, sensX/sensY as 0�100
         sensitivityXSlider.value = SensitivityToNormalized(settings.sensX);
@@ -40,6 +58,8 @@ public class UI_Sensitivity : MonoBehaviour
 
         sensitivityXInput.text = sensitivityXSlider.value.ToString("F1");
         sensitivityYInput.text = sensitivityYSlider.value.ToString("F1");
+
+        helmetToggle.isOn = !settings.helmetEnabled;
     }
 
     /// <summary>
@@ -81,5 +101,11 @@ public class UI_Sensitivity : MonoBehaviour
             settings.sensY = actual;
             sensitivityYSlider.value = normalized;
         }
+    }
+    
+    private void OnHelmetToggleChange(bool value)
+    {
+        settings.helmetEnabled = !value;
+        EventBus<HelmetSettingChange>.Raise(new HelmetSettingChange());
     }
 }

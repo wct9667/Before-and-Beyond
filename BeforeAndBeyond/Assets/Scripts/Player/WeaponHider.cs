@@ -13,24 +13,19 @@ public class WeaponHider : MonoBehaviour
         {
             foreach (Transform child in transform)
             {
+                if (child.gameObject.TryGetComponent<Canvas>(out Canvas canvas))
+                {
+                    canvas.enabled = false;
+                    return;
+                }
                 child.gameObject.SetActive(false);
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnEnable()
     {
-        characterSwapEventBinding = new EventBinding<CharacterSwap>(() =>
-        {
-            SetWeaponsActive();
-            EventBus<AbilitiesSwapped>.Raise(new AbilitiesSwapped());
-        });
+        characterSwapEventBinding = new EventBinding<CharacterSwap>(SetWeaponsActive);
         EventBus<CharacterSwap>.Register(characterSwapEventBinding);
     }
 
@@ -43,6 +38,12 @@ public class WeaponHider : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
+            if (child.gameObject.TryGetComponent<Canvas>(out Canvas canvas))
+            {
+                canvas.enabled = !canvas.enabled;
+                return;
+            }
+            
             child.gameObject.SetActive(!child.gameObject.activeSelf);
         }
     }
