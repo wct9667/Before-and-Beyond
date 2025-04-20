@@ -32,6 +32,7 @@ public class Interactable_ItemPickup : MonoBehaviour, IInteractable
                 {CharacterType.Knight, knightAbility}
             }
         });
+        gameObject.SetActive(false);
     }
 }
 
