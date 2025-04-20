@@ -70,7 +70,7 @@ public class PlayerHealth : MonoBehaviour
     /// <param name="healthChange"></param>
     private void DecreaseHeatlh(float healthChange)
     {
-        currentHealth -= (healthChange * playerState.CurrentCharacter.percentDamageReduction) / 100;
+        currentHealth -= healthChange * (1 - playerState.CurrentCharacter.percentDamageReduction / 100f);
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         if (currentHealth < 0) SceneLoader.LoadScene(0); //load the main menu
     }

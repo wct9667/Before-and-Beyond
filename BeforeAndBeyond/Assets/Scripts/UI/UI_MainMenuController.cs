@@ -17,9 +17,13 @@ public class MainMenuController : MonoBehaviour
     [Header("Scene Index for starting game scene")] [SerializeField]
     private int startSceneIndex;
 
+    [SerializeField] private InputReader inputReader;
+
 
     private void Awake()
     {
+        inputReader.SetUIInputMap();
+        
         //setup OnClicks for buttons
         buttonStart.onClick.AddListener(() => { SceneLoader.LoadScene(startSceneIndex); });
 
