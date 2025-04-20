@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725e9d77c47ac0042a98cae76f4def4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacterData: {fileID: 0}
   maxHealth: 100
 --- !u!114 &8548913852557584647
 MonoBehaviour:
@@ -178,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionPoint: {fileID: 6253216824594143026}
-  interactionPointRadius: 0.5
+  interactionPointRadius: 4
   interactableMask:
     serializedVersion: 2
     m_Bits: 256

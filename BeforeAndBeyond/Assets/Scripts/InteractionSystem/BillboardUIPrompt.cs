@@ -25,10 +25,8 @@ public class BillboardUIPrompt : MonoBehaviour
 
     private bool isDisplayed;
 
-    public bool IsDisplayed
-    {
-        get { return isDisplayed; }
-    }
+    public bool IsDisplayed =>  isDisplayed; 
+    
 
     private void Start()
     {

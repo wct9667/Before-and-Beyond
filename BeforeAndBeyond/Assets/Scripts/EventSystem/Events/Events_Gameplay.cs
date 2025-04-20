@@ -53,3 +53,8 @@ public struct ChangePlayerHealthUI : IEvent
     public float playerHealth;
     public float playerMaxHealth;
 }
+
+public struct AddAbilitiesToCharacters : IEvent
+{
+    public Dictionary<CharacterType, AbstractAbility> abilitiesToAdd;
+}
