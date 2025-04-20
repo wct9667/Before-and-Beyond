@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [Header("Character ")]
-    [SerializeField] private PlayerCharacterData playerCharacterData;
-
+    private PlayerState playerState;
     [Header("Health")]
     [SerializeField] private float maxHealth = 100;
     private float currentHealth;
@@ -47,6 +45,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Start()
     {
+        playerState = GetComponent<PlayerState>();
         currentHealth = maxHealth;
         EventBus<ChangePlayerHealthUI>.Raise(new ChangePlayerHealthUI()
         {
@@ -71,7 +70,7 @@ public class PlayerHealth : MonoBehaviour
     /// <param name="healthChange"></param>
     private void DecreaseHeatlh(float healthChange)
     {
-        currentHealth -= (healthChange * playerCharacterData.percentDamageReduction) / 100;
+        currentHealth -= (healthChange * playerState.CurrentCharacter.percentDamageReduction) / 100;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         if (currentHealth < 0) SceneLoader.LoadScene(0); //load the main menu
     }
