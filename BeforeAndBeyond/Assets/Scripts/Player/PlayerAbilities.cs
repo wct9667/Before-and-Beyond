@@ -83,13 +83,16 @@ namespace Player
             abilityHandler = new Dictionary<AbilityType, UnityAction>
             {
                 { AbilityType.Starting, () => PerformAbility(0) },
-                { AbilityType.Second, () => PerformAbility(1) }
+                { AbilityType.Second, () => PerformAbility(1) },
+                { AbilityType.Third, () => PerformAbility(2) }
             };
 
             inputReader.StartingAbility += abilityHandler[AbilityType.Starting];
             
             inputReader.SecondAbility += abilityHandler[AbilityType.Second];
-  
+
+            inputReader.ThirdAbility += abilityHandler[AbilityType.Third];
+
             characterSwapEventBinding = new EventBinding<CharacterSwap>(()=>
             {
                 InitializeCoolDownsForCurrentCharacter();
@@ -102,6 +105,8 @@ namespace Player
         {
             inputReader.StartingAbility -= abilityHandler[AbilityType.Starting];
             inputReader.SecondAbility -= abilityHandler[AbilityType.Second];
+            inputReader.ThirdAbility -= abilityHandler[AbilityType.Third];
+
             EventBus<CharacterSwap>.Deregister(characterSwapEventBinding);
         }
 

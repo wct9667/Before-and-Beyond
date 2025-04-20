@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7996dd24d22b0c74684af4c9e07cc756, type: 3}
+  m_Name: JoustAbilitySO
+  m_EditorClassIdentifier: 
+  image: {fileID: 21300000, guid: f2162a82545759f4aa58ee445ad48616, type: 3}
+  abilityCooldown: 0
+  rechargeTimer: 0
+  maxCharges: 0
+  charges: 0
+  usesCharges: 0
+  ChargeUpdated:
+    m_PersistentCalls:
+      m_Calls: []
