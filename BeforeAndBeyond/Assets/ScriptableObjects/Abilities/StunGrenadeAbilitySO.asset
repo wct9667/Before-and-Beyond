@@ -21,3 +21,6 @@ MonoBehaviour:
   ChargeUpdated:
     m_PersistentCalls:
       m_Calls: []
+  throwForce: 850
+  stunGrenade: {fileID: 2800720793434650300, guid: 1d1f85793e8b589408699dfb7750c032,
+    type: 3}

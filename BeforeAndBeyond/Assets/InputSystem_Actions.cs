@@ -98,6 +98,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ThirdAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""b804b9c8-05f8-4926-afc9-d88dfee7ba60"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -461,6 +470,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""SecondAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17cde68b-ba89-47f9-bc1d-5565c97d6a14"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ThirdAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b50f9384-79f3-4b2e-89e9-a047868cd9c4"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ThirdAbility"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1087,6 +1118,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_SwapCharacter = m_Player.FindAction("SwapCharacter", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_SecondAbility = m_Player.FindAction("SecondAbility", throwIfNotFound: true);
+        m_Player_ThirdAbility = m_Player.FindAction("ThirdAbility", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1169,6 +1201,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SwapCharacter;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_SecondAbility;
+    private readonly InputAction m_Player_ThirdAbility;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1181,6 +1214,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @SwapCharacter => m_Wrapper.m_Player_SwapCharacter;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @SecondAbility => m_Wrapper.m_Player_SecondAbility;
+        public InputAction @ThirdAbility => m_Wrapper.m_Player_ThirdAbility;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1214,6 +1248,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SecondAbility.started += instance.OnSecondAbility;
             @SecondAbility.performed += instance.OnSecondAbility;
             @SecondAbility.canceled += instance.OnSecondAbility;
+            @ThirdAbility.started += instance.OnThirdAbility;
+            @ThirdAbility.performed += instance.OnThirdAbility;
+            @ThirdAbility.canceled += instance.OnThirdAbility;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1242,6 +1279,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SecondAbility.started -= instance.OnSecondAbility;
             @SecondAbility.performed -= instance.OnSecondAbility;
             @SecondAbility.canceled -= instance.OnSecondAbility;
+            @ThirdAbility.started -= instance.OnThirdAbility;
+            @ThirdAbility.performed -= instance.OnThirdAbility;
+            @ThirdAbility.canceled -= instance.OnThirdAbility;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1440,6 +1480,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnSwapCharacter(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnSecondAbility(InputAction.CallbackContext context);
+        void OnThirdAbility(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

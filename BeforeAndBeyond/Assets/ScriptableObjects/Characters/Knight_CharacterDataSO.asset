@@ -20,7 +20,8 @@ MonoBehaviour:
   canDash: 0
   startingAbilities:
   - {fileID: 11400000, guid: 951d888a636432e499127e2048afba05, type: 2}
+  - {fileID: 11400000, guid: d38a635e777a0554dacca2a1920bc7ee, type: 2}
+  - {fileID: 11400000, guid: 9c50f69f25d70d445bf7941b36262ce6, type: 2}
   abilities:
   - {fileID: 11400000, guid: 951d888a636432e499127e2048afba05, type: 2}
   - {fileID: 11400000, guid: d38a635e777a0554dacca2a1920bc7ee, type: 2}
-  - {fileID: 11400000, guid: 9c50f69f25d70d445bf7941b36262ce6, type: 2}

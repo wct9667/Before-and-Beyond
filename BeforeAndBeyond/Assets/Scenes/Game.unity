@@ -10661,6 +10661,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestItemPickup (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8440323957798539237, guid: 0f3364cad8960c748acdf4fbf481f650,
+        type: 3}
+      propertyPath: hackerAbility
+      value: 
+      objectReference: {fileID: 11400000, guid: efea3e1107951fb479b13be01535ba66,
+        type: 2}
+    - target: {fileID: 8440323957798539237, guid: 0f3364cad8960c748acdf4fbf481f650,
+        type: 3}
+      propertyPath: knightAbility
+      value: 
+      objectReference: {fileID: 11400000, guid: 9c50f69f25d70d445bf7941b36262ce6,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
