@@ -62,7 +62,7 @@ public class EnemyAI : MonoBehaviour
 
     private void SearchWalkPoint()
     {
-        
+
     }
 
     private void ChasePlayer()
@@ -80,16 +80,19 @@ public class EnemyAI : MonoBehaviour
         if (!attackOnCD)
         {
             // Do attack
-            //player.gameObject.GetComponent()
+            EventBus<DecreasePlayerHealth>.Raise(new DecreasePlayerHealth()
+            {
+                healthChange = 10
+        });
 
-            // Reset cd
-            attackOnCD = true;
-            Invoke(nameof(ResetAttack), attackCD);
-        }
+        // Reset cd
+        attackOnCD = true;
+        Invoke(nameof(ResetAttack), attackCD);
     }
+}
 
-    private void ResetAttack()
-    {
-        attackOnCD = false;
-    }
+private void ResetAttack()
+{
+    attackOnCD = false;
+}
 }
