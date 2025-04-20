@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 21300000, guid: 18b168e7affb1422282fbaabfe13caea, type: 3}
   abilityCooldown: 8
-  rechargeTimer: 4.5851593
+  rechargeTimer: 2.1962252
   maxCharges: 3
-  charges: 0
+  charges: 1
   usesCharges: 1
+  ChargeUpdated:
+    m_PersistentCalls:
+      m_Calls: []
   shieldRadius: 10
-  shieldSphere: {fileID: 1146930503589297952, guid: 41528330ef27832408ecefb4f6018861,
+  shieldSphere: {fileID: 1083759636710894717, guid: f607ae3bf0fa8104a88eee29344a26aa,
     type: 3}
