@@ -32,6 +32,13 @@ public class Interactable_ItemPickup : MonoBehaviour, IInteractable
                 {CharacterType.Knight, knightAbility}
             }
         });
+        
+        EventBus<IncreasePlayerHealth>.Raise(new IncreasePlayerHealth()
+        {
+            healthChange = 100
+        });
+        
+        
         gameObject.SetActive(false);
     }
 }
