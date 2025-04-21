@@ -21,3 +21,9 @@ MonoBehaviour:
   ChargeUpdated:
     m_PersistentCalls:
       m_Calls: []
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  skewerRange: 1.5
+  movementSpeedScaling: 2.5
+  settings: {fileID: 11400000, guid: a8883efd1b5b1d545bf24826cf8ed11a, type: 2}

@@ -14328,6 +14328,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 160321411}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1747375504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1747375505}
+  m_Layer: 0
+  m_Name: joustTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1747375505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747375504}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: -0.02174}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1802119026}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1767258656
 GameObject:
   m_ObjectHideFlags: 0
@@ -14486,7 +14517,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a43f27dc7aee36540a7a2b78f6d3180d,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 89.23
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a43f27dc7aee36540a7a2b78f6d3180d,
         type: 3}
@@ -14550,7 +14581,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a43f27dc7aee36540a7a2b78f6d3180d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1747375505}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a43f27dc7aee36540a7a2b78f6d3180d,
         type: 3}
