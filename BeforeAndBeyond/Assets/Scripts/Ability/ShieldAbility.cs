@@ -32,19 +32,15 @@ namespace Ability
 
         public void ShieldStart()
         {
-            monoBehavior = FindObjectOfType<MonoBehaviour>();
-            monoBehavior.StartCoroutine(ShieldSphereSpawn());
+            ShieldSphereSpawn();
         }
 
-        public IEnumerator ShieldSphereSpawn()
+        public void  ShieldSphereSpawn()
         {
             GameObject obj = Instantiate(shieldSphere, player);
 
 
             Destroy(obj, 1f);
-
-            yield return new WaitForSeconds(.1f);
-
         }
 
         public void ShieldHealthSap(float amtTaken)
