@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MainMenuController : MonoBehaviour
@@ -18,12 +19,10 @@ public class MainMenuController : MonoBehaviour
     private int startSceneIndex;
 
     [SerializeField] private InputReader inputReader;
-
-
-    private void Awake()
+    
+    private void OnEnable()
     {
         inputReader.SetUIInputMap();
-        
         //setup OnClicks for buttons
         buttonStart.onClick.AddListener(() => { SceneLoader.LoadScene(startSceneIndex); });
 
@@ -42,5 +41,13 @@ public class MainMenuController : MonoBehaviour
             settingsCanvas.enabled = false;
             buttonStart.Select();
         });
+    }
+
+    private void OnDisable()
+    {
+        buttonStart.onClick.RemoveAllListeners();
+        buttonQuit.onClick.RemoveAllListeners();
+        buttonSettings.onClick.RemoveAllListeners();
+        buttonSettingsBack.onClick.RemoveAllListeners();
     }
 }

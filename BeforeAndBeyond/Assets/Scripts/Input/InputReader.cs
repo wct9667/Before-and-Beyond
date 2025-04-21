@@ -67,6 +67,8 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     /// </summary>
     public void SetUIInputMap()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         inputActions.UI.Enable();
         inputActions.Player.Disable();
     }
@@ -76,6 +78,7 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     /// </summary>
     public void SetGameInputMap()
     {
+        Cursor.visible = false;
         inputActions.UI.Disable();
         inputActions.Player.Enable();
     }
