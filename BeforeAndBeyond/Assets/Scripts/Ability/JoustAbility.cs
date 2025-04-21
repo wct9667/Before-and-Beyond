@@ -9,6 +9,7 @@ namespace Ability
     {
         [Header("Ability Attributes")]
         [SerializeField] private LayerMask enemyLayerMask;
+        [SerializeField] private LayerMask wallLayerMask;
         [SerializeField] private float skewerRange = 1.5f;
 
         [Header("Speed Scaling")]
@@ -24,7 +25,6 @@ namespace Ability
         private Transform camera, player;
         private Animator anim;
         private RaycastHit hit;
-        private RaycastHit enemyHit;
         private Transform joustTip;
 
         private float startTime;
@@ -32,6 +32,8 @@ namespace Ability
         private MonoBehaviour monoBehavior;
 
         private PlayerController playerController;
+
+        private bool endJoust;
 
         public override void ActivateAbility()
         {
@@ -42,6 +44,7 @@ namespace Ability
 
         public override void Setup()
         {
+            endJoust = false;
             camera = Camera.main.transform;
 
             playerGameObject = GameObject.FindGameObjectWithTag("Player");
@@ -69,6 +72,7 @@ namespace Ability
         private void JoustStart()
         {
             monoBehavior = FindObjectOfType<MonoBehaviour>();
+            endJoust = false;
 
             Joust(movementSpeedScaling);
 
@@ -83,9 +87,13 @@ namespace Ability
         {
             for (float i = 0; i < 150; i = i + 0.1f)
             {
-                SkewerEnemy();
-                playerRB.AddForce(new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * (i * moveScale), ForceMode.Force);
-                yield return new WaitForSeconds(.005f);
+                if(endJoust == false)
+                {
+                    SkewerEnemy();
+                    playerRB.AddForce(new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * (i * moveScale), ForceMode.Force);
+                    yield return new WaitForSeconds(.005f);
+                }
+                
             }
             animSword.SetTrigger("TakeOut");
             anim.SetTrigger("EndJoust");
@@ -99,8 +107,69 @@ namespace Ability
             foreach (var enemy in enemiesDetected)
             {
                 //enemy.transform.Rotate(0, 0, Random.Range(-180.0f, 180.0f));
+                if (Physics.SphereCast(camera.transform.position, skewerRange*0.5f, new Vector3(camera.TransformDirection(Vector3.forward).x, 0, camera.TransformDirection(Vector3.forward).z), out hit, skewerRange, wallLayerMask))
+                {
+                    Destroy(enemy.transform.gameObject);
+                    monoBehavior.StartCoroutine(DrawEffect());
+
+                    endJoust = true;
+                }
                 enemy.transform.position = joustTip.transform.position;
             }
+
+            if (Physics.SphereCast(camera.transform.position, skewerRange * 0.5f, new Vector3(camera.TransformDirection(Vector3.forward).x, 0, camera.TransformDirection(Vector3.forward).z), out hit, skewerRange, wallLayerMask))
+            {
+                monoBehavior.StartCoroutine(DrawEffect());
+
+                endJoust = true;
+            }
         }
+
+        private IEnumerator DrawEffect()
+        {
+            GameObject circle = new GameObject();
+            LineRenderer drawLine;
+
+            drawLine = circle.AddComponent<LineRenderer>();
+            drawLine.material = new Material(Shader.Find("Sprites/Default"));
+
+            drawLine.positionCount = 51;
+            drawLine.useWorldSpace = false;
+
+            float x;
+            float z;
+
+            float angle = 20f;
+
+            drawLine.startColor = Color.yellow;
+            drawLine.endColor = Color.yellow;
+
+            drawLine.startWidth = .25f;
+            drawLine.endWidth = .25f;
+
+            for (float j = 0; j < 40; j = j + 0.1f)
+            {
+                for (int i = 0; i < (51); i++)
+                {
+                    if (drawLine != null)
+                    {
+                        x = Mathf.Sin(Mathf.Deg2Rad * angle) * j;
+                        z = Mathf.Cos(Mathf.Deg2Rad * angle) * j;
+
+                        drawLine.SetPosition(i, new Vector3(hit.transform.position.x + x, joustTip.transform.position.y, hit.transform.position.z + z));
+
+                        angle += (390f / 51);
+                    }
+                }
+                yield return new WaitForSeconds(.001f);
+            }
+            GameObject.Destroy(circle, .1f);
+
+            yield return new WaitForSeconds(.1f);
+
+        }
+
     }
+
 }
+
