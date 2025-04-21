@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5349583620598082135}
   - component: {fileID: 9091494438993409174}
   - component: {fileID: 2841885125527817309}
+  - component: {fileID: 8369791666418851536}
   m_Layer: 0
   m_Name: StunGrenade
   m_TagString: Untagged
@@ -133,3 +134,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8369791666418851536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2800720793434650300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c449b661499eb40b8d919ee738dae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grenadeRadius: 12
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  stunShock: {fileID: 1146930503589297952, guid: 41528330ef27832408ecefb4f6018861,
+    type: 3}
