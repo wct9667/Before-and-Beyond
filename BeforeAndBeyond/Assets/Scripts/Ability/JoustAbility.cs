@@ -85,13 +85,13 @@ namespace Ability
         }
         private IEnumerator JoustMovement(float moveScale)
         {
-            for (float i = 0; i < 150; i = i + 0.1f)
+            for (float i = 0; i < 125; i = i + 0.05f)
             {
                 if(endJoust == false)
                 {
                     SkewerEnemy();
                     playerRB.AddForce(new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * (i * moveScale), ForceMode.Force);
-                    yield return new WaitForSeconds(.005f);
+                    yield return new WaitForSeconds(.0025f);
                 }
                 
             }
@@ -147,7 +147,7 @@ namespace Ability
             drawLine.startWidth = .25f;
             drawLine.endWidth = .25f;
 
-            for (float j = 0; j < 40; j = j + 0.1f)
+            for (float j = 0; j < 5; j = j + 0.1f)
             {
                 for (int i = 0; i < (51); i++)
                 {
@@ -156,7 +156,7 @@ namespace Ability
                         x = Mathf.Sin(Mathf.Deg2Rad * angle) * j;
                         z = Mathf.Cos(Mathf.Deg2Rad * angle) * j;
 
-                        drawLine.SetPosition(i, new Vector3(hit.transform.position.x + x, joustTip.transform.position.y, hit.transform.position.z + z));
+                        drawLine.SetPosition(i, new Vector3(joustTip.transform.position.x + x, joustTip.transform.position.y, joustTip.transform.position.z + z));
 
                         angle += (390f / 51);
                     }
