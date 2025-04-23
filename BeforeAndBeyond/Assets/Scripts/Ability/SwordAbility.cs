@@ -1,3 +1,4 @@
+using Enemy;
 using UnityEngine;
 
 namespace Ability
@@ -37,7 +38,7 @@ namespace Ability
         {
             if(Physics.SphereCast(camera.transform.position, attackWidthRadius, camera.TransformDirection(Vector3.forward), out hit, attackReach, enemyLayerMask))
             {
-                HitTarget();
+                HitTarget(hit);
             }
             else
             {
@@ -45,12 +46,15 @@ namespace Ability
             }
         }
 
-        private void HitTarget()
+        private void HitTarget(RaycastHit hit)
         {
             Debug.Log("Hit an Enemy!");
 
+            Health health = hit.transform.gameObject.GetComponent<Health>();
+            health.SubtractHealth(50);
+            
             //replace with actually dealing damage
-            Destroy(hit.transform.gameObject, .25f);
+            //Destroy(hit.transform.gameObject, .25f);
         }
     }
 }

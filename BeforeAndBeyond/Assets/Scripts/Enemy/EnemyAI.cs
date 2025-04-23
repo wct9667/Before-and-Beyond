@@ -3,96 +3,100 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+namespace Enemy
 {
-    public NavMeshAgent agent;
 
-    public Transform player;
-
-    public LayerMask whatIsGround, whatIsPlayer;
-
-
-    // Patrol state
-    public Vector3 walkPoint;
-    bool walkPointSet;
-    public float walkPointRange;
-
-    // Attack state
-    public float attackCD;
-    bool attackOnCD;
-
-    // States
-    public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
-
-    private void Awake()
+    public class EnemyAI : MonoBehaviour
     {
-        player = GameObject.Find("Player").transform;
-        agent = GetComponent<NavMeshAgent>();
-    }
+        public NavMeshAgent agent;
 
-    private void Update()
-    {
-        // Check if player is in range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        public Transform player;
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInAttackRange && playerInSightRange) Attack();
-    }
+        public LayerMask whatIsGround, whatIsPlayer;
 
-    private void Patroling()
-    {
-        // Did not have time to fully implement patrolling for now
-        return;
 
-        if (!walkPointSet) SearchWalkPoint();
+        // Patrol state
+        public Vector3 walkPoint;
+        bool walkPointSet;
+        public float walkPointRange;
 
-        if (walkPointSet)
+        // Attack state
+        public float attackCD;
+        bool attackOnCD;
+
+        // States
+        public float sightRange, attackRange;
+        public bool playerInSightRange, playerInAttackRange;
+
+        private void Awake()
         {
-            agent.SetDestination(walkPoint);
+            player = GameObject.Find("Player").transform;
+            agent = GetComponent<NavMeshAgent>();
         }
 
-        if ((transform.position - walkPoint).magnitude < 1f)
+        private void Update()
         {
-            walkPointSet = false;
+            // Check if player is in range
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+            if (!playerInSightRange && !playerInAttackRange) Patroling();
+            if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+            if (playerInAttackRange && playerInSightRange) Attack();
         }
-    }
 
-    private void SearchWalkPoint()
-    {
-
-    }
-
-    private void ChasePlayer()
-    {
-        agent.SetDestination(player.position);
-    }
-
-    private void Attack()
-    {
-        // So it doesnt box player in, may not be needed
-        agent.SetDestination(transform.position);
-
-        transform.LookAt(player);
-
-        if (!attackOnCD)
+        private void Patroling()
         {
-            // Do attack
-            EventBus<DecreasePlayerHealth>.Raise(new DecreasePlayerHealth()
+            // Did not have time to fully implement patrolling for now
+            return;
+
+            if (!walkPointSet) SearchWalkPoint();
+
+            if (walkPointSet)
             {
-                healthChange = 10
-        });
+                agent.SetDestination(walkPoint);
+            }
 
-        // Reset cd
-        attackOnCD = true;
-        Invoke(nameof(ResetAttack), attackCD);
+            if ((transform.position - walkPoint).magnitude < 1f)
+            {
+                walkPointSet = false;
+            }
+        }
+
+        private void SearchWalkPoint()
+        {
+
+        }
+
+        private void ChasePlayer()
+        {
+            agent.SetDestination(player.position);
+        }
+
+        private void Attack()
+        {
+            // So it doesnt box player in, may not be needed
+            agent.SetDestination(transform.position);
+
+            transform.LookAt(player);
+
+            if (!attackOnCD)
+            {
+                // Do attack
+                EventBus<DecreasePlayerHealth>.Raise(new DecreasePlayerHealth()
+                {
+                    healthChange = 10
+                });
+
+                // Reset cd
+                attackOnCD = true;
+                Invoke(nameof(ResetAttack), attackCD);
+            }
+        }
+
+        private void ResetAttack()
+        {
+            attackOnCD = false;
+        }
     }
-}
-
-private void ResetAttack()
-{
-    attackOnCD = false;
-}
 }
