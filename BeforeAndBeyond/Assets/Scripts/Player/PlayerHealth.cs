@@ -72,6 +72,12 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth -= healthChange * (1 - playerState.CurrentCharacter.percentDamageReduction / 100f);
         if (currentHealth > maxHealth) currentHealth = maxHealth;
-        if (currentHealth < 0) SceneLoader.LoadScene(0); //load the main menu
+        if (currentHealth < 0) GameOver(); //load the main menu
+    }
+
+    private void GameOver()
+    {
+        SceneLoader.LoadScene(0);
+        DataTracker.Instance.SaveToFile();
     }
 }

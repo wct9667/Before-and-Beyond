@@ -148,7 +148,9 @@ namespace Player
             if (!ability.UsesCharges && abilityCooldowns[ability].Cooldown > 0f) return;
             
             ability.ActivateAbility();
-            
+
+            DataTracker.Instance.RegisterAbilityUse(playerState.CurrentCharacter.CharacterType, index);
+
             //do not update cooldown if charge 
             if (ability.UsesCharges) return;
             

@@ -42,6 +42,8 @@ namespace Player
             {
                 CharacterType =  currentCharacter.CharacterType
             });
+
+            DataTracker.Instance.SetActiveCharacter(currentCharacter.CharacterType);
         }
 
 
@@ -53,6 +55,9 @@ namespace Player
             currentCharacter = currentCharacter.CharacterType == CharacterType.Knight
                 ? hackerCharacter
                 : knightCharacter;
+
+            DataTracker.Instance.SetActiveCharacter(currentCharacter.CharacterType);
+            DataTracker.Instance.PrintData();
 
             //raise event for character change
             EventBus<CharacterSwap>.Raise(new CharacterSwap()
