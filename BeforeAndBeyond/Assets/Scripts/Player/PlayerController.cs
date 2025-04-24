@@ -151,7 +151,7 @@ namespace Player
             }
 
             rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
-            rb.AddForce(transform.up * playerState.CurrentCharacter.jumpForce, ForceMode.Impulse);
+            rb.AddForce(transform.up * playerState.CurrentCharacter.jumpForce * rb.mass, ForceMode.Impulse);
             jumpCount++;
         }
 
