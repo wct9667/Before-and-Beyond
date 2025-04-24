@@ -39,7 +39,11 @@ public class PauseController : MonoBehaviour
     private void Awake()
     {
         //setup OnClicks for buttons
-        buttonMainMenu.onClick.AddListener(() => { SceneLoader.LoadScene(mainMenuSceneIndex); });
+        buttonMainMenu.onClick.AddListener(() => 
+        {
+            SceneLoader.LoadScene(mainMenuSceneIndex);
+            DataTracker.Instance.SaveToFile();
+        });
 
         buttonResume.onClick.AddListener(() =>
         {
