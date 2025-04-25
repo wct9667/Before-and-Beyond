@@ -101,7 +101,9 @@ public class DataTracker : MonoBehaviour
         knightAbilitiesJson += "\n}";
 
         string fullJson = mainJson.TrimEnd('}') + ",\n" + hackerAbilitiesJson + ",\n" + knightAbilitiesJson + "\n}";
-        string path = Application.persistentDataPath + "/trackingData.json";
+        string timestamp = System.DateTime.Now.ToString("MM-dd-yyyy_HH-mm-ss");
+        string filename = $"trackingData_{timestamp}.json";
+        string path = System.IO.Path.Combine(Application.persistentDataPath, filename);
         System.IO.File.WriteAllText(path, fullJson);
         Debug.Log($"Tracking data saved to {path}");
     }
