@@ -34,7 +34,7 @@ namespace Player
             inputReader.SwapCharacter -= SwapCharacter;
             EventBus<AddAbilitiesToCharacters>.Deregister(addAbilitiesToCharactersEventBinding);
         }
-
+        
         private void Start()
         {
             //raise event for character change

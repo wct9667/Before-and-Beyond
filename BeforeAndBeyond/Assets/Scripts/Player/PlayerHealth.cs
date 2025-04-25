@@ -43,6 +43,7 @@ public class PlayerHealth : MonoBehaviour
         EventBus<DecreasePlayerHealth>.Deregister(playerDecreaseHealthEventBinding);
     }
 
+
     private void Start()
     {
         playerState = GetComponent<PlayerState>();
@@ -55,9 +56,9 @@ public class PlayerHealth : MonoBehaviour
     }
     
     /// <summary>
-    /// Increase health
+    /// Increase health of the player, if they reach max cap it.
     /// </summary>
-    /// <param name="healthChange"></param>
+    /// <param name="healthChange">Health to increase player</param>
     private void IncreaseHealth(float healthChange)
     {
         currentHealth += healthChange;
@@ -74,7 +75,7 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         if (currentHealth < 0) GameOver(); //load the main menu
     }
-
+    
     private void GameOver()
     {
         SceneLoader.LoadScene(0);
