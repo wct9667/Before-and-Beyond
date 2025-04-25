@@ -19,7 +19,7 @@ namespace Player
         [Header("Look")]
         [SerializeField] Camera mainCamera;
         [SerializeField] Transform orientation;
-        private bool isGamepad = false;
+        private bool isGamepad;
         private Vector2 currentLookInput;
         float rotationX;
         float rotationY;
@@ -32,8 +32,7 @@ namespace Player
         [Header("Movement")]
         [SerializeField] private float moveSpeed;
         [SerializeField] private float maxSpeed = 100;
-        [SerializeField] private float airMovementScalar = 1f;
-        
+
         float horizontalInput;
         float verticalInput;
         Vector3 moveDirection;
@@ -64,8 +63,6 @@ namespace Player
 
             grounded = Physics.SphereCast(transform.position, 0.5f, -transform.up, out RaycastHit hit, groundDistance, whatIsGround);
             if (grounded) jumpCount = 0;
-            
-
 
             if (rb.velocity.magnitude > maxSpeed)
             {
@@ -104,7 +101,7 @@ namespace Player
             float percentIncrease = playerState.CurrentCharacter.percentSpeedIncrease;
             float speedMultiplier = 1f + (percentIncrease / 100f);
 
-            float airDrag = grounded ? 1 : airMovementScalar;
+            float airDrag = grounded ? 1 : playerState.CurrentCharacter.airMovementScalar;
             Vector3 targetVelocity = moveDirection * (moveSpeed * speedMultiplier * airDrag);
             
             Vector3 currentVelocity = rb.velocity;
