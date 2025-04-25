@@ -7,10 +7,21 @@ using UnityEngine;
 
 public class Interactable_ItemPickup : MonoBehaviour, IInteractable
 {
-    [SerializeField] private AbstractAbility hackerAbility;
-    [SerializeField] private AbstractAbility knightAbility;
+    /// <summary>
+    /// Small data class to hold abilities
+    /// </summary>
+    [System.Serializable]
+    public class CharacterAbilityPair
+    {
+        public CharacterType characterType;
+        public List<AbstractAbility> abilities;
+    }
+
+    [SerializeField] private List<CharacterAbilityPair> characterAbilities;
     
     [SerializeField] private string prompt;
+
+    private Animator animator;
     public string InteractionPrompt => prompt;
     
     //flag for UI prompt change
@@ -18,19 +29,32 @@ public class Interactable_ItemPickup : MonoBehaviour, IInteractable
 
     private void Start()
     {
-        hackerAbility.Setup();
-        knightAbility.Setup();
+        foreach (CharacterAbilityPair pair in characterAbilities)
+        {
+            foreach (var ability in pair.abilities)
+            {
+                ability.Setup();
+            }
+        }
+        animator = GetComponent<Animator>();
+
     }
 
     public void Interact(Interactor interactor)
     {
+        Dictionary<CharacterType, List<AbstractAbility>> abilitiesToAdd = new Dictionary<CharacterType, List<AbstractAbility>>();
+
+        foreach (CharacterAbilityPair pair in characterAbilities)
+        {
+            if (!abilitiesToAdd.ContainsKey(pair.characterType))
+                abilitiesToAdd[pair.characterType] = new List<AbstractAbility>();
+
+            abilitiesToAdd[pair.characterType].AddRange(pair.abilities);
+        }
+
         EventBus<AddAbilitiesToCharacters>.Raise(new AddAbilitiesToCharacters()
         {
-            abilitiesToAdd = new Dictionary<CharacterType, AbstractAbility>
-            {
-                {CharacterType.Hacker, hackerAbility},
-                {CharacterType.Knight, knightAbility}
-            }
+            abilitiesToAdd = abilitiesToAdd
         });
         
         EventBus<IncreasePlayerHealth>.Raise(new IncreasePlayerHealth()
@@ -38,8 +62,8 @@ public class Interactable_ItemPickup : MonoBehaviour, IInteractable
             healthChange = 100
         });
         
-        
-        gameObject.SetActive(false);
+        animator.SetTrigger("Open");
+        gameObject.layer = LayerMask.GetMask("Default");
     }
 }
 

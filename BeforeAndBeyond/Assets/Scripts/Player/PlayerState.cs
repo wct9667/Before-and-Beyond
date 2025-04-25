@@ -71,38 +71,50 @@ namespace Player
         /// <summary>
         /// Adds an ability to a character
         /// </summary>
-        /// <param name="ability">Ability to Add</param>
-        /// <param name="characterType">Type to add it to</param>
-        public void AddAbilitiesToCharacter(AddAbilitiesToCharacters eventData)
+        /// <param name="eventData"> Takes a struct that contains a dictionary of characterTypes to a list of abilities. </param>
+        private void AddAbilitiesToCharacter(AddAbilitiesToCharacters eventData)
         {
-            foreach (KeyValuePair<CharacterType, AbstractAbility> kvp in eventData.abilitiesToAdd)
+            foreach (KeyValuePair<CharacterType, List<AbstractAbility>> kvp in eventData.abilitiesToAdd)
             {
-                if (kvp.Key == CharacterType.Hacker)
+                PlayerCharacterData character = GetCharacterByType(kvp.Key);
+                if (character == null)
                 {
-                    if (hackerCharacter.Abilities.Contains(kvp.Value))
-                    {
-                        Debug.LogWarning("Character Already Has Ability" + kvp.Value);
-                        return;
-                    }
-                    hackerCharacter.Abilities.Add(kvp.Value);
+                    Debug.LogWarning($"Character of type {kvp.Key} not found.");
+                    continue;
                 }
-                else
+
+                foreach (AbstractAbility ability in kvp.Value)
                 {
-                    if (knightCharacter.Abilities.Contains(kvp.Value))
+                    if (character.Abilities.Contains(ability))
                     {
-                        Debug.LogWarning("Character Already Has Ability " + kvp.Value);
-                        return;
+                        Debug.LogWarning($"Character {kvp.Key} already has ability {ability.name}");
+                        continue;
                     }
-                    knightCharacter.Abilities.Add(kvp.Value);
+
+                    character.Abilities.Add(ability);
                 }
             }
 
             //raise event for character change
             EventBus<CharacterSwap>.Raise(new CharacterSwap()
             {
-                CharacterType =  currentCharacter.CharacterType
+                CharacterType = currentCharacter.CharacterType
             });
-            
+        }
+        
+        /// <summary>
+        /// Retunrs 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private PlayerCharacterData GetCharacterByType(CharacterType type)
+        {
+            return type switch
+            {
+                CharacterType.Hacker => hackerCharacter,
+                CharacterType.Knight => knightCharacter,
+                _ => null
+            };
         }
     }
 }

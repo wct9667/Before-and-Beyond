@@ -56,5 +56,5 @@ public struct ChangePlayerHealthUI : IEvent
 
 public struct AddAbilitiesToCharacters : IEvent
 {
-    public Dictionary<CharacterType, AbstractAbility> abilitiesToAdd;
+    public Dictionary<CharacterType, List<AbstractAbility>> abilitiesToAdd;
 }
