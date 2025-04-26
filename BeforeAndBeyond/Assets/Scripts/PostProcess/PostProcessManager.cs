@@ -15,11 +15,11 @@ public class PostProcessManager : MonoBehaviour
     {
       if (e.CharacterType == CharacterType.Knight)
       {
-        postProcessMat.SetInteger("_ColorSelection", 1);
+        postProcessMat.SetFloat("_ColorSelection", 1);
       }
       else
       {
-        postProcessMat.SetInteger("_ColorSelection", 2);
+        postProcessMat.SetFloat("_ColorSelection", 2);
       }
     });
     EventBus<CharacterSwap>.Register(characterSwapEventBinding);
