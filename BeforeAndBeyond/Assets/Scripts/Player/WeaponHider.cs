@@ -45,7 +45,6 @@ public class WeaponHider : MonoBehaviour
                     canvas.enabled = true;
                     return;
                 }
-            
                 child.gameObject.SetActive(true);
             }
         }

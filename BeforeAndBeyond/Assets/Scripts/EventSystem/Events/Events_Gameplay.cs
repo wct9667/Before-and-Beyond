@@ -58,3 +58,8 @@ public struct AddAbilitiesToCharacters : IEvent
 {
     public Dictionary<CharacterType, List<AbstractAbility>> abilitiesToAdd;
 }
+
+public struct RiftClosed : IEvent
+{
+    
+}

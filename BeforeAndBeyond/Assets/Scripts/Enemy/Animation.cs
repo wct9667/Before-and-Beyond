@@ -28,7 +28,7 @@ namespace Enemy
             health.DeathEvent -= TriggerDeathAnim;
         }
 
-        private void TriggerDeathAnim()
+        private void TriggerDeathAnim(Health health)
         {
             animator.Play("DIE");
         }

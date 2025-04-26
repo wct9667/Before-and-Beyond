@@ -16,7 +16,7 @@ namespace Enemy
 
         //events for if there are animations or such on other components to trigger
         public UnityAction DamageEvent;
-        public UnityAction DeathEvent;
+        public UnityAction<Health> DeathEvent;
 
         private float health;
 
@@ -31,7 +31,7 @@ namespace Enemy
             health -= healthChange;
             if (health <= 0)
             {
-                DeathEvent.Invoke();
+                DeathEvent.Invoke(this);
                 if(destroyOnDeath) Destroy(gameObject, timeToDeath);
                 return;
             }
