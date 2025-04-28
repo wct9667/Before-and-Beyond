@@ -7,7 +7,7 @@ public class GrappleCrosshairFeedback : MonoBehaviour
 {
     private RaycastHit hit;
     private int maxDist;
-    private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask;
 
     private Transform camera;
 

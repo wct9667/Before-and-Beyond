@@ -24,6 +24,6 @@ MonoBehaviour:
   maxDist: 45
   grappleLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   nonRefundedCooldown: 2
   grappleSpeed: 0.25
