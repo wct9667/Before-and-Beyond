@@ -13,14 +13,17 @@ MonoBehaviour:
   m_Name: GrappleHookAbilitySO
   m_EditorClassIdentifier: 
   image: {fileID: 21300000, guid: 18b168e7affb1422282fbaabfe13caea, type: 3}
-  abilityCooldown: 4
+  abilityCooldown: 2
   rechargeTimer: 0
   maxCharges: 3
   charges: 3
   usesCharges: 0
+  ChargeUpdated:
+    m_PersistentCalls:
+      m_Calls: []
   maxDist: 45
   grappleLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  nonRefundedCooldown: 4
+  nonRefundedCooldown: 2
   grappleSpeed: 0.25

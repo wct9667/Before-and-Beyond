@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: JoustAbilitySO
   m_EditorClassIdentifier: 
   image: {fileID: 21300000, guid: f2162a82545759f4aa58ee445ad48616, type: 3}
-  abilityCooldown: 16
+  abilityCooldown: 14
   rechargeTimer: 0
   maxCharges: 0
   charges: 0
