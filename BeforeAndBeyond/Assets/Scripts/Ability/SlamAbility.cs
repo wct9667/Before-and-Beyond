@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Enemy;
 
 namespace Ability
 {
@@ -116,7 +117,11 @@ namespace Ability
             foreach (var enemy in enemiesDetected)
             {
                 Debug.Log("Enemy in Range at: " + enemy.transform.position);
-                Destroy(enemy.transform.gameObject, .25f);
+
+                Health health = enemy.transform.gameObject.GetComponent<Health>();
+                health.SubtractHealth((scalePerUnit * raycastDist) * 3.5f);
+
+                //Destroy(enemy.transform.gameObject, .25f);
             }
         }
 

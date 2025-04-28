@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Player;
+using Enemy;
 
 namespace Ability
 {
@@ -109,7 +110,8 @@ namespace Ability
                 //enemy.transform.Rotate(0, 0, Random.Range(-180.0f, 180.0f));
                 if (Physics.SphereCast(camera.transform.position, skewerRange*0.5f, new Vector3(camera.TransformDirection(Vector3.forward).x, 0, camera.TransformDirection(Vector3.forward).z), out hit, skewerRange, wallLayerMask))
                 {
-                    Destroy(enemy.transform.gameObject);
+                    Health health = enemy.transform.gameObject.GetComponent<Health>();
+                    health.SubtractHealth(100);
                     monoBehavior.StartCoroutine(DrawEffect());
 
                     endJoust = true;

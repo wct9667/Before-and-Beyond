@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enemy;
 
 public class StunGrenadeLogic : MonoBehaviour
 {
@@ -19,7 +20,9 @@ public class StunGrenadeLogic : MonoBehaviour
         Collider[] enemiesDetected = Physics.OverlapSphere(transform.position, grenadeRadius, enemyLayerMask);
         foreach (var enemy in enemiesDetected)
         {
-            Destroy(enemy.transform.gameObject, .1f);
+            Health health = enemy.transform.gameObject.GetComponent<Health>();
+            health.SubtractHealth(15);
+            //Destroy(enemy.transform.gameObject, .1f);
         }
         StartCoroutine(DrawEffect());
         this.GetComponent<SphereCollider>().enabled = false;
