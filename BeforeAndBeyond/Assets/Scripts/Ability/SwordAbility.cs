@@ -7,14 +7,14 @@ namespace Ability
     public class SwordAbility : AbstractAbility
     {
         [Header("Ability Attributes")]
-        [SerializeField] private float attackReach = 3.5f;
-        [SerializeField] private float attackWidthRadius = 2.0f;
+        [SerializeField] private float attackReach = 2f;
         [SerializeField] private LayerMask enemyLayerMask;
         
         private GameObject sword;
+        private Transform swordTip;
+
         private Transform camera;
         private Animator anim;
-        private RaycastHit hit;
 
         public override void ActivateAbility()
         {
@@ -26,23 +26,27 @@ namespace Ability
             camera = Camera.main.transform;
             sword = GameObject.FindGameObjectWithTag("Sword");
             anim = sword.GetComponent<Animator>();
+            swordTip = sword.transform.Find("swordTip");
+
         }
 
         private void SwordSlash()
         {
             anim.SetTrigger("Attack");
-            AttackRay();
+            AttackDetect();
         }
 
-        private void AttackRay()
+        private void AttackDetect()
         {
-            if(Physics.SphereCast(camera.transform.position, attackWidthRadius, camera.TransformDirection(Vector3.forward), out hit, attackReach, enemyLayerMask))
+            Collider[] enemiesDetected = Physics.OverlapSphere(swordTip.position, attackReach, enemyLayerMask);
+            foreach (var enemy in enemiesDetected)
             {
-                HitTarget(hit);
-            }
-            else
-            {
-                Debug.Log("No Enemy!");
+                Debug.Log("Enemy in Range at: " + enemy.transform.position);
+
+                Health health = enemy.transform.gameObject.GetComponent<Health>();
+                health.SubtractHealth(50f);
+
+                //Destroy(enemy.transform.gameObject, .25f);
             }
         }
 
