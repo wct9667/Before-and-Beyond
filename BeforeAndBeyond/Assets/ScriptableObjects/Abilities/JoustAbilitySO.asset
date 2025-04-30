@@ -28,4 +28,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   skewerRange: 1.5
-  movementSpeedScaling: 2.5
+  movementSpeedScaling: 50

@@ -14,7 +14,7 @@ namespace Ability
         [SerializeField] private float skewerRange = 1.5f;
 
         [Header("Speed Scaling")]
-        [SerializeField] private float movementSpeedScaling = 1.5f;
+        [SerializeField] private float movementSpeedScaling = 10f;
 
         private GameObject joustObject;
         private GameObject playerGameObject;
@@ -91,7 +91,16 @@ namespace Ability
                 if(endJoust == false)
                 {
                     SkewerEnemy();
-                    playerRB.AddForce(new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * (i * moveScale), ForceMode.Force);
+
+                    float moveSpeed = i * moveScale;
+
+                    if(moveSpeed > 1750)
+                    {
+                        moveSpeed = 1750;
+                    }
+
+                    playerRB.AddForce(new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z) * (moveSpeed), ForceMode.Force);
+                    Debug.Log("-----------------------" + (i * moveScale));
                     yield return new WaitForSeconds(.0025f);
                 }
                 
