@@ -10,6 +10,7 @@ namespace Ability
         [Header("Ability Attributes")]
         [SerializeField] private float shieldRadius = 10.0f;
         [SerializeField] private GameObject shieldSphere;
+        [SerializeField] private float shieldTime = 1.5f;
 
         private GameObject playerGameObject;
         private Rigidbody playerRB;
@@ -40,13 +41,9 @@ namespace Ability
             GameObject obj = Instantiate(shieldSphere, player);
 
 
-            Destroy(obj, 1f);
+            Destroy(obj, shieldTime);
         }
 
-        public void ShieldHealthSap(float amtTaken)
-        {
-            //fill out once we have damaging enemies and player health
-        }
 
     }
 
