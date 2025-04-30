@@ -38,6 +38,7 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
     
     public event UnityAction SecondAbility = delegate { };
     public event UnityAction ThirdAbility = delegate { };
+    public event UnityAction FourthAbility = delegate { };
 
     public event UnityAction Pause = delegate { };
 
@@ -138,6 +139,13 @@ public class InputReader : ScriptableObject, InputSystem_Actions.IUIActions, Inp
         device = context.control.device;
         if (context.phase == InputActionPhase.Performed)
             ThirdAbility.Invoke();
+    }
+
+    public void OnFourthAbility(InputAction.CallbackContext context)
+    {
+        device = context.control.device;
+        if (context.phase == InputActionPhase.Performed)
+            FourthAbility.Invoke();
     }
 
     #endregion

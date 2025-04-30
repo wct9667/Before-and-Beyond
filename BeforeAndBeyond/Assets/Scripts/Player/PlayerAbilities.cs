@@ -84,7 +84,9 @@ namespace Player
             {
                 { AbilityType.Starting, () => PerformAbility(0) },
                 { AbilityType.Second, () => PerformAbility(1) },
-                { AbilityType.Third, () => PerformAbility(2) }
+                { AbilityType.Third, () => PerformAbility(2) },
+                { AbilityType.Fourth, () => PerformAbility(3) }
+
             };
 
             inputReader.StartingAbility += abilityHandler[AbilityType.Starting];
@@ -92,6 +94,8 @@ namespace Player
             inputReader.SecondAbility += abilityHandler[AbilityType.Second];
 
             inputReader.ThirdAbility += abilityHandler[AbilityType.Third];
+
+            inputReader.FourthAbility += abilityHandler[AbilityType.Fourth];
 
             characterSwapEventBinding = new EventBinding<CharacterSwap>(()=>
             {
@@ -106,6 +110,7 @@ namespace Player
             inputReader.StartingAbility -= abilityHandler[AbilityType.Starting];
             inputReader.SecondAbility -= abilityHandler[AbilityType.Second];
             inputReader.ThirdAbility -= abilityHandler[AbilityType.Third];
+            inputReader.FourthAbility -= abilityHandler[AbilityType.Fourth];
 
             EventBus<CharacterSwap>.Deregister(characterSwapEventBinding);
         }
