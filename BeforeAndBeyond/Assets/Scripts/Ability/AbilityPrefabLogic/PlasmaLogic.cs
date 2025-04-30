@@ -12,7 +12,7 @@ public class PlasmaLogic : MonoBehaviour
     private void OnCollisionEnter(Collision col)
     {
         Debug.Log("-----------------------Stun Grenade Hit Ground");
-        if (col.transform.gameObject.tag != "hammer")
+        if (col.transform.gameObject.tag != "Hammer")
         {
             ExplosionDetection();
         }

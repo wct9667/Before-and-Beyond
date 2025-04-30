@@ -8,6 +8,7 @@ TagManager:
   - Shield
   - Grapple
   - Joust
+  - Hammer
   layers:
   - Default
   - TransparentFX
