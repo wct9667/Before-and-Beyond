@@ -21,22 +21,26 @@ namespace Ability
         public override void ActivateAbility()
         {
             Debug.Log("Plasma");
+            BallThrow();
             
         }
 
         public override void Setup()
         {
-            
+            camera = Camera.main.transform;
+
+            playerGameObject = GameObject.FindGameObjectWithTag("Player");
+            playerRB = playerGameObject.GetComponent<Rigidbody>();
+            player = playerGameObject.transform;
         }
 
         public void BallThrow()
         {
-            GameObject obj = Instantiate(plasmaBall, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), Quaternion.Euler(0, 0, 0));
+            GameObject obj = Instantiate(plasmaBall, player.transform.position + camera.transform.forward, Quaternion.Euler(0, 0, 0));
             Rigidbody rb = obj.GetComponent<Rigidbody>();
 
 
-            rb.AddForce(camera.TransformDirection(Vector3.forward) * throwForce);
-            rb.AddForce(player.TransformDirection(Vector3.up) * (throwForce * 0.5f));
+            rb.AddForce(player.TransformDirection(Vector3.up) * throwForce);
         }
     }
 }

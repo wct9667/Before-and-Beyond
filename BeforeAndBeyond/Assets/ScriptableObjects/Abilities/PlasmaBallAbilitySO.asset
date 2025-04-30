@@ -21,5 +21,6 @@ MonoBehaviour:
   ChargeUpdated:
     m_PersistentCalls:
       m_Calls: []
-  throwForce: 100
-  plasmaBall: {fileID: 0}
+  throwForce: 750
+  plasmaBall: {fileID: 2800720793434650300, guid: f6e08f6a7312cc241b334009dcf256a7,
+    type: 3}
