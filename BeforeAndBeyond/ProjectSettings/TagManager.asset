@@ -9,6 +9,9 @@ TagManager:
   - Grapple
   - Joust
   - Hammer
+  - effect
+  - Plasma
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -20,7 +23,7 @@ TagManager:
   - whatIsEnemy
   - Interactible
   - whatIsPlayer
-  - 
+  - whatIsPlasma
   - 
   - 
   - 

@@ -21,4 +21,12 @@ MonoBehaviour:
   ChargeUpdated:
     m_PersistentCalls:
       m_Calls: []
-  attackReach: 2
+  attackReach: 3.5
+  plasmaAttackReach: 6
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  plasmaLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  baseballForce: 50

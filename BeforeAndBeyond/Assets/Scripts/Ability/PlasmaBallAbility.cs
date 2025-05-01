@@ -36,7 +36,7 @@ namespace Ability
 
         public void BallThrow()
         {
-            GameObject obj = Instantiate(plasmaBall, player.transform.position + camera.transform.forward, Quaternion.Euler(0, 0, 0));
+            GameObject obj = Instantiate(plasmaBall, player.transform.position + (camera.transform.forward * 2), Quaternion.Euler(0, 0, 0));
             Rigidbody rb = obj.GetComponent<Rigidbody>();
 
 

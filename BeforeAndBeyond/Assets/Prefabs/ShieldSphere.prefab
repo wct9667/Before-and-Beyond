@@ -78,6 +78,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShieldSphere
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d7810776553dd4b5ab2d36e766401539,
+        type: 3}
+      propertyPath: m_TagString
+      value: Shield
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
