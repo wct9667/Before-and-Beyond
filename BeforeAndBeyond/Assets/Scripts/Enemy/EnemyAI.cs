@@ -101,21 +101,13 @@ namespace Enemy
 
             if (!attackOnCD)
             {
-                // Do attack
-                if(player.transform.Find("ShieldSphere(Clone)") != null)
-                {
-                    EventBus<IncreasePlayerHealth>.Raise(new IncreasePlayerHealth()
-                    {
-                        healthChange = 15
-                    });
-                }
-                else
-                {
+               
+                
                     EventBus<DecreasePlayerHealth>.Raise(new DecreasePlayerHealth()
                     {
                         healthChange = 10
                     });
-                }
+                
                 
 
                 // Reset cd
