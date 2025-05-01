@@ -26,12 +26,13 @@ namespace Enemy
 
         // States
         public float sightRange, attackRange;
-        public bool playerInSightRange, playerInAttackRange;
+        public bool playerInSightRange, playerInAttackRange, stunned;
 
         private void Awake()
         {
             player = GameObject.Find("Player").transform;
             agent = GetComponent<NavMeshAgent>();
+            stunned = false;
         }
 
         private void Update()
@@ -40,9 +41,27 @@ namespace Enemy
             playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
             playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
+            if (stunned) { Stunned(); return; }
             if (!playerInSightRange && !playerInAttackRange) Patroling();
             if (playerInSightRange && !playerInAttackRange) ChasePlayer();
             if (playerInAttackRange && playerInSightRange) Attack();
+        }
+
+
+        public void Stun(float time)
+        {
+            stunned = true;
+            Invoke("UnStun", time);
+        }
+
+        private void UnStun()
+        {
+            stunned = false;
+        }
+
+        private void Stunned()
+        {
+            agent.SetDestination(this.gameObject.transform.position);
         }
 
         private void Patroling()
