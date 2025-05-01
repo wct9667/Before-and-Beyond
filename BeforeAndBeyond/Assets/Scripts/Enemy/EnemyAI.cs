@@ -14,6 +14,8 @@ namespace Enemy
 
         public LayerMask whatIsGround, whatIsPlayer;
 
+        private Animator anim;
+
 
         // Patrol state
         public Vector3 walkPoint;
@@ -33,6 +35,8 @@ namespace Enemy
             player = GameObject.Find("Player").transform;
             agent = GetComponent<NavMeshAgent>();
             stunned = false;
+            anim = GetComponent<Animator>();
+
         }
 
         private void Update()
@@ -51,11 +55,13 @@ namespace Enemy
         public void Stun(float time)
         {
             stunned = true;
+            anim.SetTrigger("Stunned");
             Invoke("UnStun", time);
         }
 
         private void UnStun()
         {
+            anim.SetTrigger("Unstunned");
             stunned = false;
         }
 

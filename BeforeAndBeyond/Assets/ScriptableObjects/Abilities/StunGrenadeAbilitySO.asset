@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StunGrenadeAbilitySO
   m_EditorClassIdentifier: 
   image: {fileID: 21300000, guid: 284ebb131d97a8e4c910b69c82c5a59e, type: 3}
-  abilityCooldown: 6
+  abilityCooldown: 8
   rechargeTimer: 0
   maxCharges: 0
   charges: 0

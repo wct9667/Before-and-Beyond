@@ -116,6 +116,9 @@ namespace Ability
             Collider[] enemiesDetected = Physics.OverlapSphere(joustTip.transform.position, skewerRange, enemyLayerMask);
             foreach (var enemy in enemiesDetected)
             {
+                if(enemy.transform.gameObject.GetComponent<EnemyAI>().stunned == false)
+                enemy.transform.gameObject.GetComponent<EnemyAI>().Stun(.0025f);
+
                 //enemy.transform.Rotate(0, 0, Random.Range(-180.0f, 180.0f));
                 if (Physics.SphereCast(camera.transform.position, skewerRange*0.5f, new Vector3(camera.TransformDirection(Vector3.forward).x, 0, camera.TransformDirection(Vector3.forward).z), out hit, skewerRange, wallLayerMask))
                 {

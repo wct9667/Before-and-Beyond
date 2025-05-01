@@ -20,6 +20,7 @@ public class StunGrenadeLogic : MonoBehaviour
         Collider[] enemiesDetected = Physics.OverlapSphere(transform.position, grenadeRadius, enemyLayerMask);
         foreach (var enemy in enemiesDetected)
         {
+            enemy.transform.gameObject.GetComponent<EnemyAI>().Stun(4.0f);
             Health health = enemy.transform.gameObject.GetComponent<Health>();
             health.SubtractHealth(15);
             //Destroy(enemy.transform.gameObject, .1f);
