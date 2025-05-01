@@ -33,8 +33,6 @@ namespace Enemy
             player = GameObject.Find("Player").transform;
             agent = GetComponent<NavMeshAgent>();
             stunned = false;
-
-            Stun(5);
         }
 
         private void Update()
@@ -54,13 +52,11 @@ namespace Enemy
         {
             stunned = true;
             Invoke("UnStun", time);
-            Debug.Log("stunned");
         }
 
         private void UnStun()
         {
             stunned = false;
-            Debug.Log("unstunned");
         }
 
         private void Stunned()
