@@ -14,6 +14,7 @@ namespace Enemy
 
         public LayerMask whatIsGround, whatIsPlayer;
 
+        private Animator animator;
 
         // Patrol state
         public Vector3 walkPoint;
@@ -33,6 +34,7 @@ namespace Enemy
             player = GameObject.Find("Player").transform;
             agent = GetComponent<NavMeshAgent>();
             stunned = false;
+            animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -101,14 +103,13 @@ namespace Enemy
 
             if (!attackOnCD)
             {
-               
-                
-                    EventBus<DecreasePlayerHealth>.Raise(new DecreasePlayerHealth()
-                    {
-                        healthChange = 10
-                    });
-                
-                
+
+                EventBus<DecreasePlayerHealth>.Raise(new DecreasePlayerHealth()
+                {
+                    healthChange = 10
+                });
+
+                animator.Play("ATTACK");
 
                 // Reset cd
                 attackOnCD = true;
