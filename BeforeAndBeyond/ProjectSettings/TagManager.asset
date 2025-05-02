@@ -8,6 +8,8 @@ TagManager:
   - Shield
   - Grapple
   - Joust
+  - effect
+  - PlayerRB
   layers:
   - Default
   - TransparentFX

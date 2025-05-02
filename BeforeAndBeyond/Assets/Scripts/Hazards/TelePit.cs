@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class TelePit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Transform destination;
+    public GameObject Player;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        Debug.Log(other.tag);
+        if (other.CompareTag("PlayerRB"))
+            Player.transform.position = destination.position;
     }
 }

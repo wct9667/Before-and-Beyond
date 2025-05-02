@@ -47,7 +47,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Boolean: 1
-    - _ColorSelection: 1
+    - _ColorSelection: 2
     - _Fullscreen_AlphaBlendOperation: 0
     - _Fullscreen_BlendMode: 1
     - _Fullscreen_ColorBlendOperation: 0
