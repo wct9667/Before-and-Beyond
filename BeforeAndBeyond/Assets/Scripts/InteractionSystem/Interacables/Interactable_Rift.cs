@@ -1,21 +1,30 @@
-
 using System.Collections.Generic;
-
 using Enemy;
-
+using Unity.VisualScripting;
 using UnityEngine;
 
+enum RiftState
+{
+    Active,
+    Unstable
+}
 [RequireComponent(typeof(BoxCollider))]
 public class Interactable_Rift : MonoBehaviour, IInteractable
 {
+    [Header("InteractionMasks - (Layer Numbers)")]
+    [SerializeField] private int postInteractedMask;
+    [SerializeField] private int interactionMask;
+
     [Header("Enemy Settings")] 
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private int enemyNum = 5;
 
     [Header("Prompt")] 
     [SerializeField] private string prompt;
+    [SerializeField] private string promptAfterEnemiesKilled;
     
     private List<GameObject> spawnedEnemies = new();
+    [SerializeField] private RiftState riftState;
     
     /// <summary>
     /// Spawnbounds for the enemies
@@ -43,22 +52,30 @@ public class Interactable_Rift : MonoBehaviour, IInteractable
     /// <param name="interactor">Object that interacted with the portal</param>
     public void Interact(Interactor interactor)
     {
-        //spawn enemies
-        for (int i = 0; i < enemyNum; i++)
+        switch (riftState)
         {
-            Vector3 spawnPos = GetRandomPointInBounds(spawnBounds.bounds);
-            GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-            spawnedEnemies.Add(enemy);
+            case RiftState.Active:
+                //spawn enemies
+                for (int i = 0; i < enemyNum; i++)
+                {
+                    Vector3 spawnPos = GetRandomPointInBounds(spawnBounds.bounds);
+                    GameObject enemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+                    spawnedEnemies.Add(enemy);
             
-            Health enemyHealth = enemy.GetComponent<Health>();
-            if (enemyHealth)
-            {
-                enemyHealth.DeathEvent += HandleEnemyDeath;
-                
-            }
-            //set layer
-            gameObject.layer = LayerMask.GetMask("Default");
+                    Health enemyHealth = enemy.GetComponent<Health>();
+                    if (enemyHealth)
+                    {
+                        enemyHealth.DeathEvent += HandleEnemyDeath;
+                    }
+                }
+                //set layer
+                gameObject.layer = postInteractedMask;
 
+                break;
+            case RiftState.Unstable:
+                EventBus<RiftClosed>.Raise(new RiftClosed());
+                gameObject.SetActive(false);
+                break;
         }
     }
     
@@ -89,11 +106,10 @@ public class Interactable_Rift : MonoBehaviour, IInteractable
         if (spawnedEnemies.Count == 0)
         {
             Debug.Log("All enemies have been destroyed!");
-            EventBus<RiftClosed>.Raise(new RiftClosed());
-            gameObject.SetActive(false);
+            prompt = promptAfterEnemiesKilled;
+            promptUpdated = false;
+            riftState = RiftState.Unstable;
+            gameObject.layer = interactionMask;
         }
     }
-    
-    
-
 }
