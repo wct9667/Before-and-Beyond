@@ -21,7 +21,7 @@ MonoBehaviour:
   ChargeUpdated:
     m_PersistentCalls:
       m_Calls: []
-  attackReach: 2.5
+  attackReach: 2.75
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
