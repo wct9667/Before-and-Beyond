@@ -12,6 +12,8 @@ TagManager:
   - effect
   - Plasma
   - Enemy
+  - effect
+  - PlayerRB
   layers:
   - Default
   - TransparentFX

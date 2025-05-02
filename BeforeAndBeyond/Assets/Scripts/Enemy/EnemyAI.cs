@@ -107,22 +107,13 @@ namespace Enemy
 
             if (!attackOnCD)
             {
-                // Do attack
-                if(player.transform.Find("ShieldSphere(Clone)") != null)
+
+                EventBus<DecreasePlayerHealth>.Raise(new DecreasePlayerHealth()
                 {
-                    EventBus<IncreasePlayerHealth>.Raise(new IncreasePlayerHealth()
-                    {
-                        healthChange = 15
-                    });
-                }
-                else
-                {
-                    EventBus<DecreasePlayerHealth>.Raise(new DecreasePlayerHealth()
-                    {
-                        healthChange = 10
-                    });
-                }
-                
+                    healthChange = 10
+                });
+
+                anim.Play("ATTACK");
 
                 // Reset cd
                 attackOnCD = true;
