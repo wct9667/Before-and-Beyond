@@ -43,11 +43,12 @@ namespace Ability
 
         public override void Setup()
         {
+            sword = GameObject.FindGameObjectWithTag("Sword");
+
             camera = Camera.main.transform;
             hammer = GameObject.FindGameObjectWithTag("Hammer");
             anim = hammer.GetComponent<Animator>();
 
-            sword = GameObject.FindGameObjectWithTag("Sword");
             animSword = sword.GetComponent<Animator>();
 
             hammerTip = hammer.transform.Find("hammerTip");
